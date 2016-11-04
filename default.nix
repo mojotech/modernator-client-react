@@ -6,7 +6,7 @@ let nixpkgs = nixpkgsFn ({
 in
 nixpkgs.stdenv.mkDerivation {
   name = "modernator-client-react";
-  buildInputs = with nixpkgs; [ flow nodejs ];
+  buildInputs = with nixpkgs; [ nodejs ];
   src = "/home/dwilson/modernator-client-react";
 
   builder = builtins.toFile "builder.sh" ''
