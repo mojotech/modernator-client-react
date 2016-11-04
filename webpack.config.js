@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 
 module.exports = {
   entry: './src/app.js',
@@ -37,7 +38,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       hash: true
-    })
+    }),
+    new FlowStatusWebpackPlugin({ failOnError: true })
   ],
 
   // General configuration
