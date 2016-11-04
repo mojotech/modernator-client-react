@@ -1,7 +1,20 @@
 /* @flow */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Main from './main';
+import { Provider} from 'react-redux';
+import { createStore } from 'redux';
+import changeScreens from './change-screens';
 
-const foo : number = 1;
+function reducer(state, action) {
+  return {
+    screen: changeScreens(state, action)
+  };
+}
 
-ReactDOM.render(<div>Hello World {foo}</div>, document.getElementById('root'));
+const store = createStore(reducer);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Main />
+  </Provider>, document.getElementById('root'));
