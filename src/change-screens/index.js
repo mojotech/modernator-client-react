@@ -4,7 +4,7 @@ const initialState = DASHBOARD;
 
 const changeScreens = (state = initialState, action) => {
   switch(action.type) {
-  case 'change-screen':
+  case 'change-screen/change':
     return action.payload;
   default:
     return state;
@@ -12,7 +12,7 @@ const changeScreens = (state = initialState, action) => {
 };
 
 export function changeScreen(screen) {
-  return action('change-screen', screen);
+  return action('change-screen/change', screen);
 }
 
 export default changeScreens;
