@@ -13,6 +13,8 @@ const Main = ({ screen }) => {
     return <NewSession />
   case SESSION:
     return <Session />
+  default:
+    throw 'undefined screen';
   }
 };
 
