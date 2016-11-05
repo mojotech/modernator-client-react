@@ -17,6 +17,7 @@
     "babel-preset-react": "^6.16.0",
     "flow-status-webpack-plugin": "^0.1.7",
     "html-webpack-plugin": "^2.24.0",
+    "ramda": "^0.22.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",

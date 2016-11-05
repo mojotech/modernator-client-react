@@ -1,6 +1,6 @@
-export function action(type, payload) {
-  return { type, payload };
-}
+import { curry } from 'ramda';
+
+export const action = curry((type, payload) => ({ type, payload }));
 
 export const DASHBOARD = 'dashboard';
 export const NEW_SESSION = 'new-session';
