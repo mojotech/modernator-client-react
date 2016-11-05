@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './main';
 import { Provider} from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { actionSideEffectMiddleware } from 'redux-side-effect';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import changeScreens from './change-screens';
 
 function reducer(state={}, action) {
@@ -11,7 +13,9 @@ function reducer(state={}, action) {
   };
 }
 
-const store = createStore(reducer);
+const store = createStore(reducer, composeWithDevTools(
+  applyMiddleware(actionSideEffectMiddleware)
+));
 
 ReactDOM.render(
   <Provider store={store}>
