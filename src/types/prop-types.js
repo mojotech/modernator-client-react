@@ -1,4 +1,6 @@
 import { PropTypes as PT } from 'react';
+import { QUESTIONER } from './common';
+import { merge, mergeAll } from 'ramda';
 
 const sessionShape = {
   sessionId: PT.number.isRequired,
@@ -9,6 +11,39 @@ const sessionShape = {
 const answererShape = {
   name: PT.string.isRequired
 };
+
+const selfShape = {
+  name: PT.string,
+  type: PT.oneOf([QUESTIONER]),
+  id: PT.number.isRequired
+};
+
+const questionShape = {
+  questionId: PT.number.isRequired,
+  questionVotes: PT.number.isRequired,
+  questionText: PT.string.isRequired,
+  questionAnswered: PT.bool.isRequired
+};
+
+const questionerShape = {
+  questionerId: PT.number.isRequired,
+  name: PT.string
+};
+
+export const Question = PT.shape(questionShape);
+
+export const Questioner = PT.shape(questionerShape);
+
+export const Session = PT.shape(mergeAll([
+  { me: selfShape },
+  { answerer: answererShape },
+  merge(sessionShape, { id: PT.number.isRequired }),
+  {
+    loading: PT.bool.isRequired,
+    questioners: PT.arrayOf(Questioner).isRequired,
+    questions: PT.arrayOf(Question).isRequired
+  }
+]));
 
 export const DashboardSession = PT.shape({
   session: PT.shape(sessionShape).isRequired,
