@@ -1,6 +1,6 @@
 import React from 'react';
 import Dashboard from './components/dashboard';
-import NewSession from './new-session';
+import NewSession from './components/new-session';
 import Session from './session';
 import { connect } from 'react-redux';
 import { DASHBOARD, NEW_SESSION, SESSION } from './types/common';
