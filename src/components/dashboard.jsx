@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from './change-screens';
-import { NEW_SESSION, SESSION } from './types/common';
+import { changeScreen } from '../change-screens';
+import { NEW_SESSION, SESSION } from '../types/common';
 
 const Dashboard = ({ createNewSession, joinSession }) => (
   <div>

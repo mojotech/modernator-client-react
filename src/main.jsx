@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from './dashboard';
+import Dashboard from './components/dashboard';
 import NewSession from './new-session';
 import Session from './session';
 import { connect } from 'react-redux';
