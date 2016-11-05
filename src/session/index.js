@@ -1,4 +1,4 @@
-import { action, SESSION } from '../types/common';
+import { action, SESSION, QUESTIONER } from '../types/common';
 import { changeScreen } from '../change-screens';
 import { compose, prop, curry } from 'ramda';
 import { apiPath, wsPath } from '../lib/api-path';
@@ -9,6 +9,11 @@ const initialState = {
   name: null,
   locked: null,
   loading: true,
+  me: {
+    name: null,
+    type: null,
+    id: null
+  },
   socket: null,
   answerer: {
     name: null
@@ -27,6 +32,8 @@ const session = (state=initialState, action) => {
     return { ...state, ...action.payload };
   case 'session/set_socket':
     return { ...state, socket: action.payload };
+  case 'session/set_self':
+    return { ...state, me: action.payload };
   default:
     return state;
   }
@@ -51,11 +58,16 @@ const joinRequest = (sessionId, name) => {
 const joinAndFetchSession = curry((sessionId, name, dispatch) => {
   return joinRequest(sessionId, name)
     .then(requestJson)
-    .then(() => {
+    .then((q) => {
+      dispatch(setSelfQuestioner(q));
       // store socket on state so it doesn't get garbage collected
       dispatch(action('session/set_socket', openSessionSocket(sessionId, dispatch)));
     });
 });
+
+function setSelfQuestioner(q) {
+  return action('session/set_self', { id: q.questionerId, name: q.name, type: QUESTIONER });
+}
 
 function openSessionSocket(sessionId, dispatch) {
   const socket = new WebSocket(`${wsPath}/sessions/${sessionId}/messages`);
