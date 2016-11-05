@@ -3,18 +3,28 @@ import { connect } from 'react-redux';
 import { changeScreen } from '../change-screens';
 import { dashboardReset } from '../dashboard';
 import { NEW_SESSION, SESSION } from '../types/common';
+import { DashboardSession } from '../types/prop-types';
 import onInitialize from './on-initialize';
 
-const Dashboard = ({ loading, createNewSession, joinSession }) => (
+const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
   <div>
     <button onClick={createNewSession}>Create New Session</button>
     <button onClick={joinSession}>Join Session</button>
     {loading && <p>"Loading..."</p>}
+    <ul>
+      {sessions.map(({ session, answerer, totals }) => (
+        <li key={session.sessionId}>
+          <a onClick={() => joinSession()}>
+            {session.name}, {session.locked}, {answerer.name}, {totals.questioners} Questioners, {totals.answeredQuestions}/{totals.questions} Questions Answered
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 );
 
 Dashboard.propTypes = {
-  loading: React.PropTypes.bool.isRequired,
+  sessions: React.PropTypes.arrayOf(DashboardSession).isRequired,
 };
 
 const mapStateToProps = (state) => (state.dashboard);
