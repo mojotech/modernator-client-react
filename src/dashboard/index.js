@@ -1,6 +1,7 @@
 import { compose, filter, reduce, map } from 'ramda';
 import { action } from '../types/common';
 import apiPath from '../lib/api-path';
+import requestJson from '../lib/request-json';
 
 const initialState = {
   sessions: [],
@@ -23,9 +24,8 @@ export const dashboardReset = action('dashboard/reset', null);
 
 export function fetchDashboard(dispatch) {
   return fetch(`${apiPath}/sessions`)
-    .then((resp) => {
-      resp.json().then(compose(dispatch, action('dashboard/load-sessions'), map(toDashboardSessionInfo)));
-    });
+    .then(requestJson)
+    .then(compose(dispatch, action('dashboard/load-sessions'), map(toDashboardSessionInfo)));
 }
 
 function toDashboardSessionInfo({ session, answerer, questioners, questions }) {
