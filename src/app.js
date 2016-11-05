@@ -5,9 +5,9 @@ import { Provider} from 'react-redux';
 import { createStore } from 'redux';
 import changeScreens from './change-screens';
 
-function reducer(state, action) {
+function reducer(state={}, action) {
   return {
-    screen: changeScreens(state, action)
+    screen: changeScreens(state.screen, action)
   };
 }
 
