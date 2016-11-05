@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from './change-screens';
-import { DASHBOARD } from './types/common';
+import { changeScreen } from '../change-screens';
+import { DASHBOARD } from '../types/common';
 
 const Session = ({ leave }) => (
   <div>
