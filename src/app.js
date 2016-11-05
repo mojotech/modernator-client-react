@@ -9,11 +9,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // reducers
 import changeScreens from './change-screens';
 import dashboard from './dashboard';
+import session from './session';
 
 function reducer(state={}, action) {
   return {
     screen: changeScreens(state.screen, action),
-    dashboard: dashboard(state.dashboard, action)
+    dashboard: dashboard(state.dashboard, action),
+    session: session(state.session, action)
   };
 }
 
