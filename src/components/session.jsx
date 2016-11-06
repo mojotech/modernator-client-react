@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from '../change-screens';
-import { DASHBOARD } from '../types/common';
-import { Session as SessionProp} from '../types/prop-types';
+import { changeScreen } from 'reducers/change-screens';
+import { DASHBOARD } from 'types/common';
+import { Session as SessionProp} from 'types/prop-types';
 import { map, isNil } from 'ramda';
 
 const Session = ({

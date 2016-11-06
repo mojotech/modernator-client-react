@@ -1,4 +1,4 @@
-import { action, DASHBOARD } from '../types/common';
+import { action, DASHBOARD } from 'types/common';
 
 const initialState = DASHBOARD;
 

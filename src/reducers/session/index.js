@@ -1,8 +1,8 @@
-import { action, SESSION, QUESTIONER } from '../types/common';
-import { changeScreen } from '../change-screens';
+import { action, SESSION, QUESTIONER } from 'types/common';
+import { changeScreen } from 'reducers/change-screens';
 import { compose, prop, curry } from 'ramda';
-import { apiPath, wsPath } from '../lib/api-path';
-import requestJson from '../lib/request-json';
+import { apiPath, wsPath } from 'lib/api-path';
+import requestJson from 'lib/request-json';
 
 const initialState = {
   id: null,

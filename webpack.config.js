@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   entry: './src/app.js',
@@ -27,7 +28,13 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.ejs']
+    extensions: ['', '.js', '.jsx', '.ejs'],
+    alias: {
+      components: path.resolve('./src/components'),
+      lib: path.resolve('./src/lib'),
+      types: path.resolve('./src/types'),
+      reducers: path.resolve('./src/reducers')
+    }
   },
 
   // Plugins

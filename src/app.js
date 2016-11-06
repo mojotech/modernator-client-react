@@ -7,9 +7,9 @@ import { actionSideEffectMiddleware } from 'redux-side-effect';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // reducers
-import changeScreens from './change-screens';
-import dashboard from './dashboard';
-import session from './session';
+import changeScreens from 'reducers//change-screens';
+import dashboard from 'reducers/dashboard';
+import session from 'reducers/session';
 
 function reducer(state={}, action) {
   return {

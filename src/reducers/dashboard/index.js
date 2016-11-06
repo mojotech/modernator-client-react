@@ -1,7 +1,7 @@
 import { compose, filter, reduce, map } from 'ramda';
-import { action } from '../types/common';
-import apiPath from '../lib/api-path';
-import requestJson from '../lib/request-json';
+import { action } from 'types/common';
+import apiPath from 'lib/api-path';
+import requestJson from 'lib/request-json';
 
 const initialState = {
   sessions: [],
