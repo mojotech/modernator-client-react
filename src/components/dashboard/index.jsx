@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from '../change-screens';
-import { joinSession } from '../session';
-import { dashboardReset } from '../dashboard';
-import { NEW_SESSION, SESSION } from '../types/common';
-import { DashboardSession } from '../types/prop-types';
-import onInitialize from './on-initialize';
+import { changeScreen } from '../../change-screens';
+import { joinSession } from '../../session';
+import { dashboardReset } from '../../dashboard';
+import { NEW_SESSION, SESSION } from '../../types/common';
+import { DashboardSession } from '../../types/prop-types';
+import onInitialize from '../on-initialize';
 
 const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
   <div>
