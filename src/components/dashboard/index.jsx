@@ -6,6 +6,7 @@ import { dashboardReset } from 'reducers/dashboard';
 import { NEW_SESSION, SESSION } from 'types/common';
 import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
+import Session from './session';
 
 const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
   <div>
@@ -13,13 +14,9 @@ const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
     <button onClick={joinSession}>Join Session</button>
     {loading && <p>"Loading..."</p>}
     <ul>
-      {sessions.map(({ session, answerer, totals }) => (
-        <li key={session.sessionId}>
-          <a onClick={() => joinSession(session.sessionId)}>
-            {session.name}, {session.locked}, {answerer.name}, {totals.questioners} Questioners, {totals.answeredQuestions}/{totals.questions} Questions Answered
-          </a>
-        </li>
-      ))}
+      {sessions.map((session) =>
+        <Session key={session.session.sessionId} {...session} joinSession={joinSession} />
+      )}
     </ul>
   </div>
 );

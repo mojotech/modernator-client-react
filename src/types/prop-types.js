@@ -30,6 +30,16 @@ const questionerShape = {
   name: PT.string
 };
 
+export const dashboardSessionShape = {
+  session: PT.shape(sessionShape).isRequired,
+  answerer: PT.shape(answererShape).isRequired,
+  totals: PT.shape({
+    answeredQuestions: PT.number.isRequired,
+    questions: PT.number.isRequired,
+    questioners: PT.number.isRequired,
+  }).isRequired
+};
+
 export const Question = PT.shape(questionShape);
 
 export const Questioner = PT.shape(questionerShape);
@@ -45,12 +55,4 @@ export const Session = PT.shape(mergeAll([
   }
 ]));
 
-export const DashboardSession = PT.shape({
-  session: PT.shape(sessionShape).isRequired,
-  answerer: PT.shape(answererShape).isRequired,
-  totals: PT.shape({
-    answeredQuestions: PT.number.isRequired,
-    questions: PT.number.isRequired,
-    questioners: PT.number.isRequired,
-  }).isRequired
-});
+export const DashboardSession = PT.shape(dashboardSessionShape);
