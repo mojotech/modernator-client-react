@@ -4,7 +4,8 @@ import { changeScreen } from 'reducers/change-screens';
 import { DASHBOARD } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
-import { askQuestion } from 'reducers/session';
+import Question from './question';
+import { askQuestion, upvoteQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse } from 'ramda';
 
 const Session = ({
@@ -17,7 +18,8 @@ const Session = ({
   questions,
   loading,
   leave,
-  askQuestion
+  askQuestion,
+  upvoteQuestion
 }) => (
   <div className='session'>
     <div className='header'>
@@ -27,14 +29,9 @@ const Session = ({
     </div>
     <AskQuestion askQuestion={askQuestion} />
     <ul className='questions'>
-      {compose(map(({
-        questionId,
-        questionVotes,
-        questionText,
-        questionAnswered
-      }) => (
-        <li key={questionId} className='question'>
-          {questionText} - {questionVotes} votes - {questionAnswered ? 'Answered' : 'Not Answered'}
+      {compose(map((question) => (
+        <li key={question.questionId} className='question'>
+          <Question {...question} upvoteQuestion={upvoteQuestion}/>
         </li>
       )), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
@@ -57,7 +54,8 @@ Session.propTypes = SessionProp.isRequired;
 const mapStateToProps = (state) => (state.session);
 const mapDispatchToProps = (dispatch) => ({
   leave: () => dispatch(changeScreen(DASHBOARD)),
-  askQuestion: compose(dispatch, askQuestion)
+  askQuestion: compose(dispatch, askQuestion),
+  upvoteQuestion: compose(dispatch, upvoteQuestion)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Session);

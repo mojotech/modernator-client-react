@@ -18,7 +18,7 @@ const selfShape = {
   id: PT.number.isRequired
 };
 
-const questionShape = {
+export const questionShape = {
   questionId: PT.number.isRequired,
   questionVotes: PT.number.isRequired,
   questionText: PT.string.isRequired,

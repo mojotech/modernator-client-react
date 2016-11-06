@@ -46,6 +46,10 @@ const session = (state=initialState, action) => {
     action.sideEffect(askQuestionRequest(state.id, action.payload));
     // TODO have some sort of processing indicator
     return state;
+  case 'session/upvote_question':
+    action.sideEffect(upvoteQuestionRequest(state.id, action.payload));
+    // TODO have some sort of processing indicator
+    return state;
   default:
     return state;
   }
@@ -124,6 +128,17 @@ const askQuestionRequest = curry((sessionId, text, dispatch) => (
     credentials: 'include',
     headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' }),
     body: JSON.stringify({ question: text })
+  })
+));
+
+export const upvoteQuestion = action('session/upvote_question');
+
+const upvoteQuestionRequest = curry((sessionId, questionId, dispatch) => (
+  fetch(`${apiPath}/sessions/${sessionId}/questions/${questionId}/upvote`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' })
   })
 ));
 
