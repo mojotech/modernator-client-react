@@ -15,7 +15,9 @@ const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
     {loading && <p>"Loading..."</p>}
     <ul>
       {sessions.map((session) =>
-        <Session key={session.session.sessionId} {...session} joinSession={joinSession} />
+        <li key={session.session.sessionId}>
+          <Session {...session} joinSession={joinSession} />
+        </li>
       )}
     </ul>
   </div>
