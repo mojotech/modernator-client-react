@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { changeScreen } from 'reducers/change-screens';
 import { DASHBOARD } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
-import { map, isNil, prop, sortBy, compose } from 'ramda';
+import { map, isNil, prop, sortBy, compose, values, reverse } from 'ramda';
 
 const Session = ({
   id,
@@ -32,7 +32,7 @@ const Session = ({
         <li key={questionId} className='question'>
           {questionText} - {questionVotes} votes - {questionAnswered ? 'Answered' : 'Not Answered'}
         </li>
-      )), sortBy(prop('votes')))(questions)}
+      )), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
     <ul className='questioners'>
       {map(({

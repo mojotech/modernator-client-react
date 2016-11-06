@@ -1,6 +1,6 @@
 import { action, SESSION, QUESTIONER } from 'types/common';
 import { changeScreen } from 'reducers/change-screens';
-import { compose, prop, curry } from 'ramda';
+import { compose, prop, curry, indexBy } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
 
@@ -90,7 +90,7 @@ function toSessionInfo({ session, answerer, questioners, questions }) {
     name: session.name,
     locked: session.locked,
     answerer,
-    questions,
+    questions: indexBy(prop('questionId'), questions),
     questioners
   };
 }
