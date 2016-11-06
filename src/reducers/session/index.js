@@ -36,6 +36,8 @@ const session = (state=initialState, action) => {
     return { ...state, me: action.payload };
   case 'sesssion/lock':
     return { ...state, locked: true };
+  case 'session/question_asked':
+    return { ...state, questions: { ...state.questions, [action.payload.questionId]: action.payload } };
   default:
     return state;
   }
@@ -85,6 +87,8 @@ function handleMessage(message) {
     return action('session/load', toSessionInfo(message.session));
   case 'SessionLocked':
     return action('session/lock', null);
+  case 'QuestionAsked':
+    return action('session/question_asked', message.question);
   }
 }
 
