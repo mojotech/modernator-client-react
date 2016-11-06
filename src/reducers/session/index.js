@@ -38,6 +38,8 @@ const session = (state=initialState, action) => {
     return { ...state, locked: true };
   case 'session/question_asked':
     return { ...state, questions: { ...state.questions, [action.payload.questionId]: action.payload } };
+  case 'session/question_upvoted':
+    return { ...state, questions: { ...state.questions, [action.payload.questionId]: action.payload } };
   default:
     return state;
   }
@@ -89,6 +91,8 @@ function handleMessage(message) {
     return action('session/lock', null);
   case 'QuestionAsked':
     return action('session/question_asked', message.question);
+  case 'QuestionUpvoted':
+    return action('session/question_upvoted', message.question);
   }
 }
 
