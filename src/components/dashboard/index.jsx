@@ -7,6 +7,7 @@ import { NEW_SESSION, SESSION } from 'types/common';
 import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
 import Session from './session';
+import { curry } from 'ramda';
 
 const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
   <div>
@@ -30,7 +31,7 @@ Dashboard.propTypes = {
 const mapStateToProps = (state) => (state.dashboard);
 const mapDispatchToProps = (dispatch) => ({
   createNewSession: () => dispatch(changeScreen(NEW_SESSION)),
-  joinSession: (sessionId) => dispatch(joinSession(sessionId, null)),
+  joinSession: curry((sessionId, name) => dispatch(joinSession(sessionId, name))),
   initialize: () => dispatch(dashboardReset)
 });
 
