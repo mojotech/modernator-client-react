@@ -34,6 +34,8 @@ const session = (state=initialState, action) => {
     return { ...state, socket: action.payload };
   case 'session/set_self':
     return { ...state, me: action.payload };
+  case 'sesssion/lock':
+    return { ...state, locked: true };
   default:
     return state;
   }
@@ -81,6 +83,8 @@ function handleMessage(message) {
   switch(message.tag) {
   case 'SessionState':
     return action('session/load', toSessionInfo(message.session));
+  case 'SessionLocked':
+    return action('session/lock', null);
   }
 }
 
