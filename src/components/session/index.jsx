@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { changeScreen } from 'reducers/change-screens';
 import { DASHBOARD } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
+import AskQuestion from './ask-question';
+import { askQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse } from 'ramda';
 
 const Session = ({
@@ -14,7 +16,8 @@ const Session = ({
   questioners,
   questions,
   loading,
-  leave
+  leave,
+  askQuestion
 }) => (
   <div className='session'>
     <div className='header'>
@@ -22,6 +25,7 @@ const Session = ({
       <p>by {answerer.name}</p>
       <p>You are {me.type} {me.id}, {me.name}</p>
     </div>
+    <AskQuestion askQuestion={askQuestion} />
     <ul className='questions'>
       {compose(map(({
         questionId,
@@ -53,6 +57,7 @@ Session.propTypes = SessionProp.isRequired;
 const mapStateToProps = (state) => (state.session);
 const mapDispatchToProps = (dispatch) => ({
   leave: () => dispatch(changeScreen(DASHBOARD)),
+  askQuestion: compose(dispatch, askQuestion)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Session);

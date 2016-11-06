@@ -42,6 +42,10 @@ const session = (state=initialState, action) => {
     return { ...state, questions: { ...state.questions, [action.payload.questionId]: action.payload } };
   case 'session/question_answered':
     return { ...state, questions: { ...state.questions, [action.payload.questionId]: action.payload } };
+  case 'session/ask_question':
+    action.sideEffect(askQuestionRequest(state.id, action.payload));
+    // TODO have some sort of processing indicator
+    return state;
   default:
     return state;
   }
@@ -110,5 +114,17 @@ function toSessionInfo({ session, answerer, questioners, questions }) {
     questioners
   };
 }
+
+export const askQuestion = action('session/ask_question');
+
+const askQuestionRequest = curry((sessionId, text, dispatch) => (
+  fetch(`${apiPath}/sessions/${sessionId}/questions/ask`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' }),
+    body: JSON.stringify({ question: text })
+  })
+));
 
 export default session;
