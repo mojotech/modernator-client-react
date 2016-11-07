@@ -20,6 +20,9 @@ functioning, complete implementation (without polish and optimization) should be
 possible in a few days to a week for reasonably experienced developers. Whereas
 something like TodoMVC might be doable in a few hours.
 
+See [Architecture](Architecture.md) for more information about what's specific
+to this implementation.
+
 # Building
 
 ## Nix
