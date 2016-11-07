@@ -27,7 +27,7 @@ const session = (state=initialState, action) => {
   case 'session/join':
     action.sideEffect((d) => d(changeScreen(SESSION)));
     action.sideEffect(joinAndFetchSession(action.payload.sessionId, action.payload.name));
-    return { ...initialState, id: action.payload.sessionId };
+    return { ...initialState };
   case 'session/load':
     return { ...state, ...action.payload };
   case 'session/set_socket':
