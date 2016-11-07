@@ -1,4 +1,4 @@
-import { action, SESSION, QUESTIONER } from 'types/common';
+import { action, SESSION, QUESTIONER, ANSWERER } from 'types/common';
 import { changeScreen } from 'reducers/change-screens';
 import { compose, prop, curry, indexBy } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
@@ -24,6 +24,10 @@ const initialState = {
 
 const session = (state=initialState, action) => {
   switch(action.type) {
+  case 'session/create':
+    action.sideEffect((d) => d(changeScreen(SESSION)));
+    action.sideEffect(createAndJoinSession(action.payload));
+    return { ...initialState };
   case 'session/join':
     action.sideEffect((d) => d(changeScreen(SESSION)));
     action.sideEffect(joinAndFetchSession(action.payload.sessionId, action.payload.name));
@@ -85,6 +89,10 @@ function setSelfQuestioner(q) {
   return action('session/set_self', { id: q.questionerId, name: q.name, type: QUESTIONER });
 }
 
+function setSelfAnswerer(a) {
+  return action('session/set_self', { id: a.answererId, name: a.name, type: ANSWERER });
+}
+
 function openSessionSocket(sessionId, dispatch) {
   const socket = new WebSocket(`${wsPath}/sessions/${sessionId}/messages`);
   socket.onmessage = compose(dispatch, handleMessage, parseMessage);
@@ -140,6 +148,30 @@ const upvoteQuestionRequest = curry((sessionId, questionId, dispatch) => (
     credentials: 'include',
     headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' })
   })
+));
+
+export const createSession = action('session/create');
+
+const createSessionRequest = (topic, name) => (
+  fetch(`${apiPath}/sessions`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' }),
+    body: JSON.stringify({
+      sessionName: topic,
+      answererName: name
+    })
+  })
+);
+
+const createAndJoinSession = curry(({ topic, name }, dispatch) => (
+  createSessionRequest(topic, name)
+    .then(requestJson)
+    .then((a) => {
+      dispatch(setSelfAnswerer(a));
+      dispatch(action('session/set_socket', openSessionSocket(a.sessionId, dispatch)));
+    })
 ));
 
 export default session;

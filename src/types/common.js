@@ -6,3 +6,4 @@ export const DASHBOARD = 'dashboard';
 export const NEW_SESSION = 'new-session';
 export const SESSION = 'session';
 export const QUESTIONER = 'questioner';
+export const ANSWERER = 'answerer';
