@@ -12,7 +12,6 @@ import { curry } from 'ramda';
 const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
   <div>
     <button onClick={createNewSession}>Create New Session</button>
-    <button onClick={joinSession}>Join Session</button>
     {loading && <p>"Loading..."</p>}
     <ul>
       {sessions.map((session) =>
