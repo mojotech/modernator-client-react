@@ -38,7 +38,7 @@ const session = (state=initialState, action) => {
     return { ...state, socket: action.payload };
   case 'session/set_self':
     return { ...state, me: action.payload };
-  case 'sesssion/lock':
+  case 'session/lock':
     return { ...state, locked: true };
   case 'session/question_asked':
     return { ...state, questions: { ...state.questions, [action.payload.questionId]: action.payload } };
