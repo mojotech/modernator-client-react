@@ -2,27 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { changeScreen } from 'reducers/change-screens';
 import { SESSION, DASHBOARD } from 'types/common';
-import { compose } from 'ramda';
+import { curry, compose } from 'ramda';
 import { createSession } from 'reducers/session';
 import preventDefault from 'lib/prevent-default';
 import StatefulForm from 'components/stateful-form';
 
+const NewSessionForm = curry((submitSession, onSubmit, onChange) =>
+  <form onSubmit={compose(submitSession, preventDefault(onSubmit))}>
+    <div>
+      <label htmlFor='topic'>Session Topic</label>
+      <input type='text' name='topic' placeholder='The weather' onChange={onChange} />
+    </div>
+    <div>
+      <label htmlFor='name'>Your Name</label>
+      <input type='text' name='name' placeholder='Dexter' onChange={onChange} />
+    </div>
+    <button type='submit'>Create Session</button>
+  </form>
+);
+
 const NewSession = ({ cancel, submitSession }) => (
   <div>
     <button onClick={cancel}>Cancel</button>
-    <StatefulForm form={(onSubmit, onChange) => (
-      <form onSubmit={compose(submitSession, preventDefault(onSubmit))}>
-        <div>
-          <label htmlFor='topic'>Session Topic</label>
-          <input type='text' name='topic' placeholder='The weather' onChange={onChange} />
-        </div>
-        <div>
-          <label htmlFor='name'>Your Name</label>
-          <input type='text' name='name' placeholder='Dexter' onChange={onChange} />
-        </div>
-        <button type='submit'>Create Session</button>
-      </form>
-    )} />
+    <StatefulForm form={NewSessionForm(submitSession)} />
   </div>
 );
 
