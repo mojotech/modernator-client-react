@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "$(npm bin)/webpack-dev-server --inline --hot"
+    "start": "$(npm bin)/webpack-dev-server --inline --hot --config webpack.config.dev.js"
   },
   "author": "MojoTech",
   "license": "MIT",

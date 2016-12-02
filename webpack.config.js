@@ -4,19 +4,6 @@ const path = require('path');
 
 module.exports = {
   entry: './src/app.js',
-  output: {
-    path: './bin',
-    filename: 'app.bundle.js'
-  },
-
-  // Dev server configuration
-  devServer: {
-    hot: true,
-    inline: true,
-    host: 'localhost',
-    port: 3000,
-    contentBase: './src'
-  },
 
   module: {
     loaders: [
@@ -39,15 +26,9 @@ module.exports = {
 
   // Plugins
   plugins: [
-    new webpack.NoErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       hash: true
     })
-  ],
-
-  // General configuration
-  debug: true,
-  devtool: 'cheap-eval-source-map'
+  ]
 };
