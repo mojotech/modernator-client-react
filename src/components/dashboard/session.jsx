@@ -12,7 +12,7 @@ const DashboardSession = ({ session, answerer, totals, joinSession }) => (
       </p>
       <p>
         <label htmlFor='name'>Desired Name</label>
-        <input name='name' type='text' placeholder='Dexter' onChange={onChange} />
+        <input type='text' placeholder='Dexter' onChange={onChange('name')} />
       </p>
       <button type='submit'>Join Session</button>
     </form>

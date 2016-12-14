@@ -11,11 +11,11 @@ const NewSessionForm = curry((submitSession, onSubmit, onChange) =>
   <form onSubmit={compose(submitSession, preventDefault(onSubmit))}>
     <div>
       <label htmlFor='topic'>Session Topic</label>
-      <input type='text' name='topic' placeholder='The weather' onChange={onChange} />
+      <input type='text' placeholder='The weather' onChange={onChange('topic')} />
     </div>
     <div>
       <label htmlFor='name'>Your Name</label>
-      <input type='text' name='name' placeholder='Dexter' onChange={onChange} />
+      <input type='text' placeholder='Dexter' onChange={onChange('name')} />
     </div>
     <button type='submit'>Create Session</button>
   </form>

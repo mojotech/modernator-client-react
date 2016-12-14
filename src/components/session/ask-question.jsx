@@ -7,7 +7,7 @@ const AskQuestion = ({ askQuestion }) => (
   <StatefulForm form={(onSubmit, onChange) => (
     <form onSubmit={compose(askQuestion, prop('question'), preventDefault(onSubmit))}>
       <label htmlFor='question'>Ask a question</label>
-      <input required onChange={onChange} type='text' name='question' placeholder='How are you' />
+      <input required onChange={onChange('question')} type='text' placeholder='How are you' />
       <button type='submit'>Ask</button>
     </form>
   )} />

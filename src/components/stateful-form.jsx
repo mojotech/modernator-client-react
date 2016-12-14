@@ -8,8 +8,10 @@ export default class StatefulForm extends React.Component {
     this.state = {};
   }
 
-  onChange(e) {
-    this.setState({ [e.target.getAttribute('name')]: e.target.value });
+  onChange(name) {
+    return (e) => {
+      this.setState({ [name]: e.target.value });
+    };
   }
 
   onSubmit(e) {
