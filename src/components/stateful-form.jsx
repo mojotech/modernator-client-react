@@ -19,8 +19,8 @@ export default class StatefulForm extends React.Component {
   }
 
   render() {
-    const Form = this.props.form;
-
-    return <Form onSubmit={this.onSubmit} onChange={this.onChange} />
+    return React.createElement(this.props.form,
+      { onSubmit: this.onSubmit, onChange: this.onChange, ...this.state }
+    );
   }
 };

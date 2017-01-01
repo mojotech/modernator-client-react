@@ -5,14 +5,14 @@ import { compose, propOr } from 'ramda';
 import StatefulForm from 'components/stateful-form';
 
 const DashboardSession = ({ session, answerer, totals, joinSession }) => (
-  <StatefulForm form={({ onSubmit, onChange }) => (
+  <StatefulForm form={({ onSubmit, onChange, name='' }) => (
     <form onSubmit={compose(joinSession(session.sessionId), propOr(null, 'name'), preventDefault(onSubmit))}>
       <p>
         {session.name}, {session.locked}, {answerer.name}, {totals.questioners} Questioners, {totals.answeredQuestions}/{totals.questions} Questions Answered
       </p>
       <p>
         <label htmlFor='name'>Desired Name</label>
-        <input type='text' placeholder='Dexter' onChange={onChange('name')} />
+        <input value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
       </p>
       <button type='submit'>Join Session</button>
     </form>
