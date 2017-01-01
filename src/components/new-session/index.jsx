@@ -7,7 +7,7 @@ import { createSession } from 'reducers/session';
 import preventDefault from 'lib/prevent-default';
 import StatefulForm from 'components/stateful-form';
 
-const NewSessionForm = curry((submitSession, onSubmit, onChange) =>
+const NewSessionForm = curry((submitSession, { onSubmit, onChange }) =>
   <form onSubmit={compose(submitSession, preventDefault(onSubmit))}>
     <div>
       <label htmlFor='topic'>Session Topic</label>
