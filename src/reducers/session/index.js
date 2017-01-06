@@ -100,6 +100,12 @@ function setSelfAnswerer(a) {
 function openSessionSocket(sessionId, dispatch) {
   const socket = new WebSocket(`${wsPath}/sessions/${sessionId}/messages`);
   socket.onmessage = compose(dispatch, handleMessage, parseMessage);
+  socket.onclose = (c) => {
+    console.log('Socket closed: ', c);
+  };
+  socket.onerror = (e) => {
+    console.log('Socket error: ', e);
+  };
   return socket;
 }
 
