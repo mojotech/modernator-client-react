@@ -20,7 +20,7 @@ const selfShape = {
 
 export const questionShape = {
   questionId: PT.number.isRequired,
-  questionVotes: PT.number.isRequired,
+  questionVotes: PT.arrayOf(PT.number).isRequired,
   questionText: PT.string.isRequired,
   questionAnswered: PT.bool.isRequired
 };
