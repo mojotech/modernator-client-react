@@ -1,10 +1,11 @@
 import React from 'react';
 import { questionShape } from 'types/prop-types';
 import preventDefault from 'lib/prevent-default';
+import { join } from 'ramda';
 
 const SessionQuestion= ({ questionText, questionVotes, questionAnswered, questionId, upvoteQuestion }) => (
   <a onClick={preventDefault(() => upvoteQuestion(questionId))}>
-    {questionText} - {questionVotes} votes - {questionAnswered ? 'Answered' : 'Not Answered'}
+    {join(' - ', [questionText, `${questionVotes.length} votes`, questionAnswered ? 'Answered' : 'Not Answered'])}
   </a>
 );
 
