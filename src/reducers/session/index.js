@@ -54,6 +54,8 @@ const session = (state=initialState, action) => {
     action.sideEffect(upvoteQuestionRequest(state.id, action.payload));
     // TODO have some sort of processing indicator
     return state;
+  case 'session/questioner_joined':
+    return { ...state, questioners: [ ...state.questioners, action.payload ] };
   default:
     return state;
   }
@@ -123,6 +125,8 @@ function handleMessage(message) {
     return action('session/question_upvoted', message.question);
   case 'QuestionAnswered':
     return action('session/question_answered', message.question);
+  case 'QuestionerJoined':
+    return action('session/questioner_joined', message.questioner);
   }
 }
 
