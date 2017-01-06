@@ -75,13 +75,17 @@ const joinRequest = (sessionId, name) => {
   });
 };
 
+function setSessionSocket(sessionId, dispatch) {
+  return action('session/set_socket', openSessionSocket(sessionId, dispatch));
+}
+
 const joinAndFetchSession = curry((sessionId, name, dispatch) => {
   return joinRequest(sessionId, name)
     .then(requestJson)
     .then((q) => {
       dispatch(setSelfQuestioner(q));
       // store socket on state so it doesn't get garbage collected
-      dispatch(action('session/set_socket', openSessionSocket(sessionId, dispatch)));
+      dispatch(setSessionSocket(sessionId, dispatch));
     });
 });
 
@@ -170,7 +174,7 @@ const createAndJoinSession = curry(({ topic, name }, dispatch) => (
     .then(requestJson)
     .then((a) => {
       dispatch(setSelfAnswerer(a));
-      dispatch(action('session/set_socket', openSessionSocket(a.sessionId, dispatch)));
+      dispatch(setSessionSocket(a.sessionId, dispatch));
     })
 ));
 
