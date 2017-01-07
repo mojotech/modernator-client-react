@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeScreen } from 'reducers/change-screens';
-import { DASHBOARD } from 'types/common';
+import { DASHBOARD, QUESTIONER } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
 import Question from './question';
@@ -27,7 +27,7 @@ const Session = ({
       <p>by {answerer.name}</p>
       <p>You are {me.name}</p>
     </div>
-    <AskQuestion askQuestion={askQuestion} />
+    {me.type === QUESTIONER && <AskQuestion askQuestion={askQuestion} />}
     <ul className='questions'>
       {compose(map((question) => (
         <li key={question.questionId} className='question'>
