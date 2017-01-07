@@ -23,9 +23,9 @@ const Session = ({
 }) => (
   <div className='session'>
     <div className='header'>
-      <p>{id} - {name} - {locked}</p>
+      <p>{name} - {locked}</p>
       <p>by {answerer.name}</p>
-      <p>You are {me.type} {me.id}, {me.name}</p>
+      <p>You are {me.name}</p>
     </div>
     <AskQuestion askQuestion={askQuestion} />
     <ul className='questions'>
