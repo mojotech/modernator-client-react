@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeScreen } from 'reducers/change-screens';
-import { joinSession } from 'reducers/session';
+import { joinSession, rejoinSession } from 'reducers/session';
 import { dashboardReset } from 'reducers/dashboard';
 import { NEW_SESSION, SESSION } from 'types/common';
 import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
 import Session from './session';
-import { curry } from 'ramda';
+import { curry, compose } from 'ramda';
 
-const Dashboard = ({ sessions, loading, createNewSession, joinSession }) => (
+const Dashboard = ({ sessions, loading, createNewSession, joinSession, rejoinSession }) => (
   <div>
     <button onClick={createNewSession}>Create New Session</button>
     {loading && <p>"Loading..."</p>}
     <ul>
       {sessions.map((session) =>
         <li key={session.session.sessionId}>
-          <Session {...session} joinSession={joinSession} />
+          <Session {...session} joinSession={joinSession} rejoinSession={rejoinSession} />
         </li>
       )}
     </ul>
@@ -31,6 +31,7 @@ const mapStateToProps = (state) => (state.dashboard);
 const mapDispatchToProps = (dispatch) => ({
   createNewSession: () => dispatch(changeScreen(NEW_SESSION)),
   joinSession: curry((sessionId, name) => dispatch(joinSession(sessionId, name))),
+  rejoinSession: compose(dispatch, rejoinSession),
   initialize: () => dispatch(dashboardReset)
 });
 
