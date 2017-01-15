@@ -1,10 +1,16 @@
 import { action, DASHBOARD } from 'types/common';
 
+export const CHANGE_SCREEN = 'change-screen/change';
+
+export function getScreen(action) {
+  return action.payload;
+}
+
 const initialState = DASHBOARD;
 
 const changeScreens = (state = initialState, action) => {
   switch(action.type) {
-  case 'change-screen/change':
+  case CHANGE_SCREEN:
     return action.payload;
   default:
     return state;
@@ -12,7 +18,7 @@ const changeScreens = (state = initialState, action) => {
 };
 
 export function changeScreen(screen) {
-  return action('change-screen/change', screen);
+  return action(CHANGE_SCREEN, screen);
 }
 
 export default changeScreens;
