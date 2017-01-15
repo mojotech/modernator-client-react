@@ -27,13 +27,13 @@ to this implementation.
 
 ## Nix
 The easiest way to build this is to download the [Nix package
-manager](http://nixos.org/nix/) and use one of the following commands:
+manager](http://nixos.org/nix/) and use the following commands:
 
-* `nix-env --install -f default.nix` - TODO
-* `nix-build default.nix` - TODO
 * `nix-shell --pure shell.nix` - Enter a shell environment where all compile and
   run time dependencies are installed and available except for those installed
   via NPM. Use this for active development.
+* `npm run build` - Build the minified JS bundle
+* `npm run start` - Start the webpack dev server for local testing.
 
 Each of the above commands will automatically download and install all
 dependencies required by the project.
@@ -70,6 +70,15 @@ In either case when you run any of `nix-build`, `nix-env --install`, or
 The NPM packages aren't currently packaged and managed by Nix, so you'll have to
 install them the normal way via `npm install`. `npm start` will start the
 Webpack development server. Visit `localhost:3000` to see the application.
+
+# Deployment
+
+The current deployment situation is simply to copy the minified JS bundle onto
+an S3 bucket configured to be served as a static site. To deploy, you'll need
+the AWS CLI tools. See http://docs.aws.amazon.com/cli/latest/userguide/installing.html or, if you
+build this package in a nix-shell, they'll be available there. After that, set
+up the CLI tools with appropriate credentials and run `npm run sync`. Talk to
+the package maintainer about getting AWS credentials if you don't have them.
 
 # Dependencies
 

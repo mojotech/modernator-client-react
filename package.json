@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "$(npm bin)/webpack-dev-server --inline --hot --config webpack.config.dev.js",
     "build": "$(npm bin)/webpack --config webpack.config.prod.js",
-    "sync": "aws s3 sync bin/dist/ s3://modernator.danielwilsonthomas.com"
+    "sync": "aws s3 sync bin/dist/ s3://modernator.mojotech.com"
   },
   "author": "MojoTech",
   "license": "MIT",
