@@ -25,6 +25,10 @@ to this implementation.
 
 # Building
 
+Before building, you'll want to follow the directions in .env.sample and fill it
+in with the appropriate values. Talk to the project maintainer if you don't know
+the appropriate values.
+
 ## Nix
 The easiest way to build this is to download the [Nix package
 manager](http://nixos.org/nix/) and use the following commands:
