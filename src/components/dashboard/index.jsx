@@ -8,12 +8,13 @@ import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
 import Session from './session';
 import { curry, compose } from 'ramda';
+require('styles/dashboard.less');
 
 const Dashboard = ({ sessions, loading, createNewSession, joinSession, rejoinSession }) => (
-  <div>
+  <div className='dashboard' >
     <button onClick={createNewSession}>Create New Session</button>
     {loading && <p>"Loading..."</p>}
-    <ul>
+    <ul className='session-list'>
       {sessions.map((session) =>
         <li key={session.session.sessionId}>
           <Session {...session} joinSession={joinSession} rejoinSession={rejoinSession} />

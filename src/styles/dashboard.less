@@ -1,0 +1,72 @@
+@import 'variables';
+@import 'common';
+
+.dashboard {
+  width: 80em;
+  margin: 0 auto;
+}
+
+.session {
+  display: flex;
+  justify-content: space-between;
+  border-radius: @border-radius-large;
+  background: @secondary-light;
+  padding: @relative-small;
+}
+
+.session-list {
+  padding: 0;
+}
+
+.session-list li {
+  display: block;
+}
+
+.session-info {
+  flex: 2 0 auto;
+  margin-right: @relative-medium;
+  vertical-align: middle;
+}
+
+.session-join {
+  flex: 1 1 auto;
+  margin-right: @relative-medium;
+  vertical-align: middle;
+}
+
+.session-rejoin {
+  flex: 1 1 auto;
+}
+
+.session-name {
+  margin-right: @fixed-medium;
+  margin-bottom: @fixed-medium;
+  display: inline-block;
+}
+
+.session-answerer {
+  margin-left: @fixed-medium;
+  margin-bottom: @fixed-medium;
+  display: inline-block;
+}
+
+.session-stats {
+  margin: 0;
+  padding-top: @fixed-medium;
+  border-top: @border-solid;
+  border-color: @secondary-medium;
+}
+
+.name-input {
+  margin-left: @fixed-medium;
+  background: @secondary-lightest;
+  border: @border-solid;
+  border-radius: @border-radius-large;
+  border-color: @secondary-medium;
+  padding-left: @fixed-medium;
+}
+
+.session-join .submit {
+  background-color: @primary-lightest;
+  border-color: @primary-medium;
+}

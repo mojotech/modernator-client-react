@@ -4,11 +4,12 @@ import NewSession from 'components/new-session';
 import Session from 'components/session';
 import { connect } from 'react-redux';
 import { DASHBOARD, NEW_SESSION, SESSION } from 'types/common';
+require('styles/screens.less')
 
 const Main = ({ screen }) => {
   switch(screen) {
   case DASHBOARD:
-    return <Dashboard />
+    return <div className='dashboard-root'><Dashboard /></div>
   case NEW_SESSION:
     return <NewSession />
   case SESSION:

@@ -5,6 +5,7 @@ import { Provider} from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { actionSideEffectMiddleware } from 'redux-side-effect';
 import { composeWithDevTools } from 'redux-devtools-extension';
+require('styles/base.less');
 
 // reducers
 import changeScreens from 'reducers/change-screens';
