@@ -21,10 +21,10 @@ module.exports = R.merge(baseConfig, {
   // Plugins
   plugins: baseConfig.plugins.concat(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.LoaderOptionsPlugin({ debug: true })
   ),
 
   // General configuration
-  debug: true,
   devtool: 'eval'
 });

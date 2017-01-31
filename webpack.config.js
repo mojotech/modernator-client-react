@@ -6,16 +6,16 @@ module.exports = {
   entry: './src/app.js',
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: ['babel-loader']
       }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.ejs'],
+    extensions: ['.js', '.jsx', '.ejs', '.less'],
     alias: {
       components: path.resolve('./src/components'),
       lib: path.resolve('./src/lib'),
