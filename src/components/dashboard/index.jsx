@@ -12,7 +12,10 @@ require('styles/dashboard.less');
 
 const Dashboard = ({ sessions, loading, createNewSession, joinSession, rejoinSession }) => (
   <div className='dashboard' >
-    <button onClick={createNewSession}>Create New Session</button>
+    <div className='heading'>
+      <button className='new-session' onClick={createNewSession}>New Session</button>
+      <h1 className='h1'>Modernator</h1>
+    </div>
     {loading && <p>"Loading..."</p>}
     <ul className='session-list'>
       {sessions.map((session) =>

@@ -2,71 +2,138 @@
 @import 'common';
 
 .dashboard {
-  width: 80em;
+  max-width: 80em;
   margin: 0 auto;
-}
+  color: @secondary-darkest;
 
-.session {
-  display: flex;
-  justify-content: space-between;
-  border-radius: @border-radius-large;
-  background: @secondary-light;
-  padding: @relative-small;
-}
+  .session {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: @border-radius-large;
+    border: @border-solid;
+    border-color: @secondary-medium;
+    border-width: @fixed-small;
+    background: @secondary-lightest;
+    padding: @relative-small;
+    min-width: 400px;
+  }
 
-.session-list {
-  padding: 0;
-}
+  .session-list {
+    padding: 0;
+  }
 
-.session-list li {
-  display: block;
-}
+  .session-list li {
+    display: block;
+  }
 
-.session-info {
-  flex: 2 0 auto;
-  margin-right: @relative-medium;
-  vertical-align: middle;
-}
+  .session-list li + li {
+    margin-top: @relative-medium;
+  }
 
-.session-join {
-  flex: 1 1 auto;
-  margin-right: @relative-medium;
-  vertical-align: middle;
-}
+  .session-info {
+    flex: 2 0 0;
+    margin-right: @relative-medium;
+    vertical-align: middle;
+  }
 
-.session-rejoin {
-  flex: 1 1 auto;
-}
+  .session-join {
+    flex: 1 1 0;
+    margin-right: @relative-medium;
+    vertical-align: middle;
+  }
 
-.session-name {
-  margin-right: @fixed-medium;
-  margin-bottom: @fixed-medium;
-  display: inline-block;
-}
+  .session-join button {
+    font-size: @font-size - @fixed-small;
+    padding: @fixed-small @fixed-medium;
+    margin-left: @fixed-small;
+  }
 
-.session-answerer {
-  margin-left: @fixed-medium;
-  margin-bottom: @fixed-medium;
-  display: inline-block;
-}
+  .session-name {
+    margin-right: @fixed-medium;
+    margin-bottom: @fixed-medium;
+    display: inline-block;
+  }
 
-.session-stats {
-  margin: 0;
-  padding-top: @fixed-medium;
-  border-top: @border-solid;
-  border-color: @secondary-medium;
-}
+  .session-answerer {
+    margin-left: @fixed-medium;
+    margin-bottom: @fixed-medium;
+    display: inline-block;
+  }
 
-.name-input {
-  margin-left: @fixed-medium;
-  background: @secondary-lightest;
-  border: @border-solid;
-  border-radius: @border-radius-large;
-  border-color: @secondary-medium;
-  padding-left: @fixed-medium;
-}
+  .session-stats {
+    margin: 0;
+    padding-top: @fixed-medium;
+    border-top: @border-solid;
+    border-color: @secondary-light;
+  }
 
-.session-join .submit {
-  background-color: @primary-lightest;
-  border-color: @primary-medium;
+  .name-input {
+    margin-left: @fixed-medium;
+    background: @secondary-lightest;
+    border: @border-solid;
+    border-radius: @border-radius-large;
+    border-color: @secondary-light;
+    padding-left: @fixed-medium;
+    padding-top: @fixed-small;
+    padding-bottom: @fixed-small;
+    color: @secondary-darkest;
+    font-size: @font-size - @fixed-small;
+    outline: none;
+  }
+
+  .name-input:focus, .name-input:hover {
+    border-color: @secondary-medium;
+  }
+
+  .name-input::placeholder {
+    color: @secondary-medium;
+  }
+
+  .session-join .submit {
+    background-color: @primary-lightest;
+    border-color: @primary-light;
+    color: @primary-darkest;
+    margin-left: @relative-small;
+  }
+
+  .session-join .submit:focus, .session-join .submit:hover {
+    border-color: @primary-dark;
+  }
+
+  .session-join .submit:active {
+    background-color: @primary-light;
+    border-color: @primary-light;
+    color: @primary-darkest;
+  }
+
+  .new-session {
+    background-color: @tertiary-lightest;
+    border-color: @tertiary-light;
+    color: @tertiary-darkest;
+    font-size: @font-size-large;
+    padding: @fixed-large;
+  }
+
+  .new-session:focus, .new-session:hover {
+    border-color: @tertiary-dark;
+  }
+
+  .new-session:active {
+    background-color: @tertiary-light;
+    border-color: @tertiary-light;
+    color: @tertiary-darkest;
+  }
+
+  .h1 {
+    font-size: @font-size-large + @fixed-large;
+    font-weight: @font-weight-bold;
+    display: inline-block;
+    margin: 0;
+  }
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+  }
 }

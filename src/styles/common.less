@@ -4,7 +4,24 @@
   margin: 0;
 }
 
-.submit {
+button {
   border-radius: @border-radius-large;
   border: @border-solid;
+  border-color: @accent-light;
+  background: @accent-lightest;
+  color: @accent-darkest;
+  font-size: 15px;
+  padding: 5px;
+  outline: none;
+  text-align: center;
+}
+
+button:focus, button:hover {
+  border-color: @accent-dark;
+}
+
+button:active {
+  border-color: @accent-light;
+  background: @accent-light;
+  color: @accent-darkest;
 }

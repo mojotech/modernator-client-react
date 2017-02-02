@@ -15,14 +15,12 @@ const DashboardSession = ({ session, answerer, totals, joinSession, rejoinSessio
     </div>
     <StatefulForm form={({ onSubmit, onChange, name='' }) => (
       <form className='session-join' onSubmit={compose(joinSession(session.sessionId), propOr(null, 'name'), preventDefault(onSubmit))}>
-        <p className='no-margin'>
-          <label htmlFor='name'>Join as</label>
-          <input className='name-input' value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
-        </p>
-        <button className='submit' type='submit'>Join Session</button>
+        <label htmlFor='name'>Join as</label>
+        <input className='name-input' value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
+        <button className='submit' type='submit'>Join</button>
+        <button onClick={() => rejoinSession(session.sessionId)}>Rejoin</button>
       </form>
     )} />
-    <button className='session-rejoin' onClick={() => rejoinSession(session.sessionId)}>Rejoin Session</button>
   </div>
 );
 
