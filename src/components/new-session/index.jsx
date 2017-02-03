@@ -6,25 +6,28 @@ import { curry, compose } from 'ramda';
 import { createSession } from 'reducers/session';
 import preventDefault from 'lib/prevent-default';
 import StatefulForm from 'components/stateful-form';
+require('styles/new-session.less')
 
-const NewSessionForm = curry((submitSession, { onSubmit, onChange, topic='', name='' }) =>
-  <form onSubmit={compose(submitSession, preventDefault(onSubmit))}>
-    <div>
-      <label htmlFor='topic'>Session Topic</label>
-      <input value={topic} type='text' placeholder='The weather' onChange={onChange('topic')} />
+const NewSessionForm = curry((submitSession, cancel, { onSubmit, onChange, topic='', name='' }) =>
+  <form className='new-session-form' onSubmit={compose(submitSession, preventDefault(onSubmit))}>
+    <div className='topic'>
+      <label htmlFor='topic'>Topic</label>
+      <input className='topic-input' value={topic} type='text' placeholder='The weather' onChange={onChange('topic')} />
     </div>
-    <div>
-      <label htmlFor='name'>Your Name</label>
-      <input name={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
+    <div className='name'>
+      <label htmlFor='name'>Name</label>
+      <input className='topic-input' name={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
     </div>
-    <button type='submit'>Create Session</button>
+    <div className='buttons'>
+      <button className='create-session' type='submit'>Create</button>
+      <button onClick={cancel}>Cancel</button>
+    </div>
   </form>
 );
 
 const NewSession = ({ cancel, submitSession }) => (
-  <div>
-    <button onClick={cancel}>Cancel</button>
-    <StatefulForm form={NewSessionForm(submitSession)} />
+  <div className='new-session'>
+    <StatefulForm form={NewSessionForm(submitSession, cancel)} />
   </div>
 );
 

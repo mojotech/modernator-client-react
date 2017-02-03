@@ -11,7 +11,7 @@ const Main = ({ screen }) => {
   case DASHBOARD:
     return <div className='dashboard-root'><Dashboard /></div>
   case NEW_SESSION:
-    return <NewSession />
+    return <div className='new-session-root'><NewSession /></div>
   case SESSION:
     return <Session />
   default:
