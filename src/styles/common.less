@@ -25,3 +25,24 @@ button:active {
   background: @accent-light;
   color: @accent-darkest;
 }
+
+input {
+  background: @accent-lightest;
+  border: @border-solid;
+  border-radius: @border-radius-large;
+  border-color: @accent-light;
+  padding-left: @fixed-medium;
+  padding-top: @fixed-small;
+  padding-bottom: @fixed-small;
+  color: @accent-darkest;
+  font-size: @font-size - @fixed-small;
+  outline: none;
+}
+
+input:focus, input:hover {
+  border-color: @accent-medium;
+}
+
+input::placeholder {
+  color: @accent-medium;
+}
