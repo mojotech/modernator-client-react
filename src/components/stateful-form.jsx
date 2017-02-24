@@ -5,22 +5,27 @@ export default class StatefulForm extends React.Component {
     super();
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = {};
+    this.reset = this.reset.bind(this);
+    this.state = { state: {} };
   }
 
   onChange(name) {
     return (e) => {
-      this.setState({ [name]: e.target.value });
+      this.setState({ state: { ...this.state.state, [name]: e.target.value } });
     };
   }
 
   onSubmit(e) {
-    return this.state;
+    return this.state.state;
+  }
+
+  reset() {
+    this.setState({ state: {} });
   }
 
   render() {
     return React.createElement(this.props.form,
-      { onSubmit: this.onSubmit, onChange: this.onChange, ...this.state }
+      { onSubmit: this.onSubmit, onChange: this.onChange, reset: this.reset, ...this.state.state }
     );
   }
 };
