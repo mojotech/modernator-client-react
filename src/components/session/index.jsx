@@ -15,6 +15,7 @@ const Session = ({
   me,
   answerer,
   questioners,
+  anonymousQuestioners,
   questions,
   loading,
   leave,
@@ -36,12 +37,17 @@ const Session = ({
       )), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
     <ul className='questioners'>
+      {anonymousQuestioners > 0 &&
+        <li>
+          {anonymousQuestioners} Anonymous
+        </li>
+      }
       {map(({
         questionerId,
         name
       }) => (
         <li key={questionerId} className='questioner'>
-          {isNil(name) ? 'Anonymous' : name}
+          {name}
         </li>
       ), questioners)}
     </ul>

@@ -1,6 +1,6 @@
 import { action, SESSION, QUESTIONER, ANSWERER } from 'types/common';
 import { changeScreen } from 'reducers/change-screens';
-import { compose, prop, curry, indexBy } from 'ramda';
+import { compose, prop, curry, indexBy, filter, isNil, not } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
 
@@ -19,6 +19,7 @@ const initialState = {
     name: null
   },
   questioners: [],
+  anonymousQuestioners: 0,
   questions: []
 };
 
@@ -163,13 +164,15 @@ function handleMessage(message) {
 }
 
 function toSessionInfo({ session, answerer, questioners, questions }) {
+  const questionersWithNames = filter(compose(not, isNil, prop('name')), questioners);
   return {
     id: session.sessionId,
     name: session.name,
     locked: session.locked,
     answerer,
     questions: indexBy(prop('questionId'), questions),
-    questioners
+    questioners: questionersWithNames,
+    anonymousQuestioners: questioners.length - questionersWithNames.length
   };
 }
 
