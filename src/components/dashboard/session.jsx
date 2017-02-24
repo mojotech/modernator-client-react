@@ -18,7 +18,7 @@ const DashboardSession = ({ session, answerer, totals, joinSession, rejoinSessio
         <label htmlFor='name'>Join as</label>
         <input className='name-input' value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
         <button className='submit' type='submit'>Join</button>
-        <button onClick={() => rejoinSession(session.sessionId)}>Rejoin</button>
+        <button onClick={preventDefault(() => rejoinSession(session.sessionId))}>Rejoin</button>
       </form>
     )} />
   </div>
