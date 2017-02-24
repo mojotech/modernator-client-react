@@ -6,7 +6,7 @@ import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
 import Question from './question';
 import { askQuestion, upvoteQuestion } from 'reducers/session';
-import { map, isNil, prop, sortBy, compose, values, reverse, contains } from 'ramda';
+import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition } from 'ramda';
 require('styles/session.less')
 
 const Session = ({
@@ -36,7 +36,7 @@ const Session = ({
         <li key={question.questionId}>
           <Question {...question} upvoteQuestion={upvoteQuestion} upvotedByMe={contains(me.id, question.questionVotes)}/>
         </li>
-      )), reverse, sortBy(prop('questionVotes')), values)(questions)}
+      )), flatten, partition(prop('questionAnswered')), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
     <h3 className='h3'>Questioners:</h3>
     <ul className='questioners'>
