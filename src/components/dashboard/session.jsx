@@ -17,8 +17,10 @@ const DashboardSession = ({ session, answerer, totals, joinSession, rejoinSessio
       <form className='session-join' onSubmit={compose(joinSession(session.sessionId), propOr(null, 'name'), preventDefault(onSubmit))}>
         <label htmlFor='name'>Join as</label>
         <input className='name-input' value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
-        <button className='submit' type='submit'>Join</button>
-        <button onClick={preventDefault(() => rejoinSession(session.sessionId))}>Rejoin</button>
+        <div className='actions'>
+          <button className='submit' type='submit'>Join</button>
+          <button onClick={preventDefault(() => rejoinSession(session.sessionId))}>Rejoin</button>
+        </div>
       </form>
     )} />
   </div>
