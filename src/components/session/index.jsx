@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeScreen } from 'reducers/change-screens';
-import { DASHBOARD, QUESTIONER } from 'types/common';
+import { DASHBOARD, QUESTIONER, ANSWERER } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
-import SessionQuestion, { QuestionerActions, QuestionerQuestion } from './question';
-import { askQuestion, upvoteQuestion } from 'reducers/session';
+import SessionQuestion, { QuestionerActions, QuestionerQuestion, AnswererQuestion, AnswererActions } from './question';
+import { askQuestion, upvoteQuestion, answerQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
 require('styles/session.less')
 
@@ -33,6 +33,27 @@ const makeQuestionerQuestion = curry((me, upvoteQuestion, question) => {
   );
 });
 
+const makeAnswererQuestion = curry((answerQuestion, question) => {
+  const Question =
+    <AnswererQuestion
+      {...pick(['questionText', 'questionVotes', 'questionAnswered'], question)}
+      />;
+  const Actions =
+    <AnswererActions
+      {...pick(['questionId', 'questionAnswered'], question)}
+      answerQuestion={answerQuestion}
+      />;
+
+  return (
+    <li key={question.questionId}>
+      <SessionQuestion
+        Question={Question}
+        Actions={Actions}
+        />
+    </li>
+  );
+});
+
 const Session = ({
   id,
   name,
@@ -45,7 +66,8 @@ const Session = ({
   loading,
   leave,
   askQuestion,
-  upvoteQuestion
+  upvoteQuestion,
+  answerQuestion
 }) => (
   <div className='session'>
     <div className='header'>
@@ -56,7 +78,11 @@ const Session = ({
     <h3 className='h3'>Questions:</h3>
     {me.type === QUESTIONER && <AskQuestion askQuestion={askQuestion} />}
     <ul className='questions'>
-      {compose(map(makeQuestionerQuestion(me, upvoteQuestion)), flatten, partition(prop('questionAnswered')), reverse, sortBy(prop('questionVotes')), values)(questions)}
+      {compose(map((question) => (
+        me.type === ANSWERER ?
+          makeAnswererQuestion(answerQuestion, question) :
+          makeQuestionerQuestion(me, upvoteQuestion, question)
+      )), flatten, partition(prop('questionAnswered')), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
     <h3 className='h3'>Questioners:</h3>
     <ul className='questioners'>
@@ -84,7 +110,8 @@ const mapStateToProps = (state) => (state.session);
 const mapDispatchToProps = (dispatch) => ({
   leave: () => dispatch(changeScreen(DASHBOARD)),
   askQuestion: compose(dispatch, askQuestion),
-  upvoteQuestion: compose(dispatch, upvoteQuestion)
+  upvoteQuestion: compose(dispatch, upvoteQuestion),
+  answerQuestion: compose(dispatch, answerQuestion)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Session);

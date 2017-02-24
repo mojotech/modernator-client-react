@@ -29,6 +29,26 @@ QuestionerActions.propTypes = {
   ...pick(['questionId'], questionShape)
 };
 
+export const AnswererQuestion = ({ questionText, questionVotes, questionAnswered }) => (
+  <div className={`data ${answeredClass(questionAnswered)}`}>
+    <span className='votes'>{questionVotes.length}</span>
+    <span className='text'>{questionText}</span>
+  </div>
+);
+
+AnswererQuestion.propTypes = {
+  ...pick(['questionText', 'questionVotes', 'questionAnswered'], questionShape)
+};
+
+export const AnswererActions = ({ answerQuestion, questionAnswered, questionId }) => (
+  <button disabled={questionAnswered} onClick={() => answerQuestion(questionId)} className={`answer ${answeredClass(questionAnswered)}`}>Answer</button>
+);
+
+AnswererActions.propTypes = {
+  answerQuestion: React.PropTypes.func.isRequired,
+  ...pick(['questionId, questionAnswered'], questionShape)
+};
+
 const SessionQuestion = ({ Question, Actions }) => (
   <div className='question'>
     {Question}

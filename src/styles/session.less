@@ -123,7 +123,8 @@
         font-weight: @font-weight-bold;
       }
 
-      .actions .upvote {
+      .actions .upvote ,
+      .actions .answer {
         background-color: @primary-lightest;
         border-color: @primary-light;
         color: @primary-darkest;
@@ -131,17 +132,20 @@
         padding-right: @fixed-large;
       }
 
-      .actions .upvote:hover, .actions .upvote:focus {
+      .actions .upvote:hover, .actions .upvote:focus,
+      .actions .answer:hover, .actions .answer:focus {
         border-color: @primary-dark;
       }
 
-      .actions .upvote:active {
+      .actions .upvote:active,
+      .actions .answer:active {
         background-color: @primary-light;
         border-color: @primary-light;
         color: @primary-darkest;
       }
 
-      .actions .upvote.upvoted {
+      .actions .upvote.upvoted,
+      .actions .answer.answered {
         border-color: @primary-medium;
         color: @primary-darkest;
         background-color: @primary-light;

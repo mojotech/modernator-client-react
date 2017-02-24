@@ -59,6 +59,10 @@ const session = (state=initialState, action) => {
     action.sideEffect(upvoteQuestionRequest(state.id, action.payload));
     // TODO have some sort of processing indicator
     return state;
+  case 'session/answer_question':
+    action.sideEffect(answerQuestionRequest(state.id, action.payload));
+    // TODO have some sort of processing indicator
+    return state;
   case 'session/questioner_joined':
     return { ...state, questioners: [ ...state.questioners, action.payload ] };
   default:
@@ -192,6 +196,17 @@ export const upvoteQuestion = action('session/upvote_question');
 
 const upvoteQuestionRequest = curry((sessionId, questionId, dispatch) => (
   fetch(`${apiPath}/sessions/${sessionId}/questions/${questionId}/upvote`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' })
+  })
+));
+
+export const answerQuestion = action('session/answer_question');
+
+const answerQuestionRequest = curry((sessionId, questionId, dispatch) => (
+  fetch(`${apiPath}/sessions/${sessionId}/questions/${questionId}/answer`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
