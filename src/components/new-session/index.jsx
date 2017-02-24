@@ -16,7 +16,7 @@ const NewSessionForm = curry((submitSession, cancel, { onSubmit, onChange, topic
     </div>
     <div className='name'>
       <label htmlFor='name'>Name</label>
-      <input className='topic-input' name={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
+      <input className='name-input' name={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
     </div>
     <div className='buttons'>
       <button className='create-session' type='submit'>Create</button>
