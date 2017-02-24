@@ -1,63 +1,72 @@
 @import 'variables';
 
-.new-session {
-  border: @border-solid;
-  border-width: @fixed-small;
-  border-radius: @border-radius-large;
-  border-color: @tertiary-medium;
-  background: @tertiary-light;
-  padding: @fixed-large;
-  color: @tertiary-darkest;
+.new-session-root {
+  background: @tertiary-lightest;
+  padding: @relative-large;
+  height: ~"calc(100vh - @{relative-large} * 2)";
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
-  .name {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: @relative-small;
-  }
-
-  .topic {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: @relative-small;
-  }
-
-  .topic-input, .name-input {
-    width: @fixed-large * 20;
-    margin-left: @relative-medium;
-    background: @tertiary-lightest;
+  .new-session {
+    border: @border-solid;
+    border-width: @fixed-small;
+    border-radius: @border-radius-large;
     border-color: @tertiary-medium;
+    background: @tertiary-light;
+    padding: @fixed-large;
     color: @tertiary-darkest;
-  }
 
-  .topic-input:focus, .topic-input:hover,
-  .name-input:focus, .name-input:hover {
-    border-color: @tertiary-dark;
-  }
+    .name {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: @relative-small;
+    }
 
-  .topic-input::placeholder, .name-input::placeholder {
-    color: @tertiary-medium;
-  }
+    .topic {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: @relative-small;
+    }
 
-  .buttons {
-    text-align: right;
-  }
+    .topic-input, .name-input {
+      width: @fixed-large * 20;
+      margin-left: @relative-medium;
+      background: @tertiary-lightest;
+      border-color: @tertiary-medium;
+      color: @tertiary-darkest;
+    }
 
-  .create-session {
-    background-color: @primary-lightest;
-    border-color: @primary-light;
-    color: @primary-darkest;
-    margin-right: @relative-small;
-  }
+    .topic-input:focus, .topic-input:hover,
+    .name-input:focus, .name-input:hover {
+      border-color: @tertiary-dark;
+    }
 
-  .create-session:hover, .create-session:focus {
-    border-color: @primary-dark;
-  }
+    .topic-input::placeholder, .name-input::placeholder {
+      color: @tertiary-medium;
+    }
 
-  .create-session:active {
-    background-color: @primary-light;
-    border-color: @primary-light;
-    color: @primary-darkest;
+    .buttons {
+      text-align: right;
+    }
+
+    .create-session {
+      background-color: @primary-lightest;
+      border-color: @primary-light;
+      color: @primary-darkest;
+      margin-right: @relative-small;
+    }
+
+    .create-session:hover, .create-session:focus {
+      border-color: @primary-dark;
+    }
+
+    .create-session:active {
+      background-color: @primary-light;
+      border-color: @primary-light;
+      color: @primary-darkest;
+    }
   }
 }

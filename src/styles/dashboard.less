@@ -1,132 +1,138 @@
 @import 'variables';
 @import 'common';
 
-.dashboard {
-  max-width: 80em;
-  margin: 0 auto;
-  color: @secondary-darkest;
+.dashboard-root {
+  background: @secondary-light;
+  padding: @relative-large;
+  height: ~"calc(100vh - @{relative-large} * 2)";
 
-  .session {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    border-radius: @border-radius-large;
-    border: @border-solid;
-    border-color: @secondary-medium;
-    border-width: @fixed-small;
-    background: @secondary-lightest;
-    padding: @relative-small;
-    min-width: 400px;
-  }
-
-  .session-list {
-    padding: 0;
-  }
-
-  .session-list li {
-    display: block;
-  }
-
-  .session-list li + li {
-    margin-top: @relative-medium;
-  }
-
-  .session-info {
-    flex: 2 0 0;
-    margin-right: @relative-medium;
-    vertical-align: middle;
-  }
-
-  .session-join {
-    flex: 1 1 0;
-    margin-right: @relative-medium;
-    vertical-align: middle;
-  }
-
-  .session-join button {
-    font-size: @font-size - @fixed-small;
-    padding: @fixed-small @fixed-medium;
-    margin-left: @fixed-small;
-  }
-
-  .session-name {
-    margin-right: @fixed-medium;
-    margin-bottom: @fixed-medium;
-    display: inline-block;
-  }
-
-  .session-answerer {
-    margin-left: @fixed-medium;
-    margin-bottom: @fixed-medium;
-    display: inline-block;
-  }
-
-  .session-stats {
-    margin: 0;
-    padding-top: @fixed-medium;
-    border-top: @border-solid;
-    border-color: @secondary-light;
-  }
-
-  .name-input {
-    margin-left: @fixed-medium;
-    background: @secondary-lightest;
-    border-color: @secondary-light;
+  .dashboard {
+    max-width: 80em;
+    margin: 0 auto;
     color: @secondary-darkest;
-  }
 
-  .name-input:focus, .name-input:hover {
-    border-color: @secondary-medium;
-  }
+    .session {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      border-radius: @border-radius-large;
+      border: @border-solid;
+      border-color: @secondary-medium;
+      border-width: @fixed-small;
+      background: @secondary-lightest;
+      padding: @relative-small;
+      min-width: 400px;
+    }
 
-  .name-input::placeholder {
-    color: @secondary-medium;
-  }
+    .session-list {
+      padding: 0;
+    }
 
-  .session-join .submit {
-    background-color: @primary-lightest;
-    border-color: @primary-light;
-    color: @primary-darkest;
-    margin-left: @relative-small;
-  }
+    .session-list li {
+      display: block;
+    }
 
-  .session-join .submit:focus, .session-join .submit:hover {
-    border-color: @primary-dark;
-  }
+    .session-list li + li {
+      margin-top: @relative-medium;
+    }
 
-  .session-join .submit:active {
-    background-color: @primary-light;
-    border-color: @primary-light;
-    color: @primary-darkest;
-  }
+    .session-info {
+      flex: 2 0 0;
+      margin-right: @relative-medium;
+      vertical-align: middle;
+    }
 
-  .new-session {
-    background-color: @tertiary-lightest;
-    border-color: @tertiary-light;
-    color: @tertiary-darkest;
-    font-size: @font-size-large;
-    padding: @fixed-large;
-  }
+    .session-join {
+      flex: 1 1 0;
+      margin-right: @relative-medium;
+      vertical-align: middle;
+    }
 
-  .new-session:focus, .new-session:hover {
-    border-color: @tertiary-dark;
-  }
+    .session-join button {
+      font-size: @font-size - @fixed-small;
+      padding: @fixed-small @fixed-medium;
+      margin-left: @fixed-small;
+    }
 
-  .new-session:active {
-    background-color: @tertiary-light;
-    border-color: @tertiary-light;
-    color: @tertiary-darkest;
-  }
+    .session-name {
+      margin-right: @fixed-medium;
+      margin-bottom: @fixed-medium;
+      display: inline-block;
+    }
 
-  .h1 {
-    font-size: @font-size-large + @fixed-large;
-    font-weight: @font-weight-bold;
-    display: inline-block;
-    margin: 0;
-  }
+    .session-answerer {
+      margin-left: @fixed-medium;
+      margin-bottom: @fixed-medium;
+      display: inline-block;
+    }
 
-  .heading {
-    display: flex;
-    justify-content: space-between;
+    .session-stats {
+      margin: 0;
+      padding-top: @fixed-medium;
+      border-top: @border-solid;
+      border-color: @secondary-light;
+    }
+
+    .name-input {
+      margin-left: @fixed-medium;
+      background: @secondary-lightest;
+      border-color: @secondary-light;
+      color: @secondary-darkest;
+    }
+
+    .name-input:focus, .name-input:hover {
+      border-color: @secondary-medium;
+    }
+
+    .name-input::placeholder {
+      color: @secondary-medium;
+    }
+
+    .session-join .submit {
+      background-color: @primary-lightest;
+      border-color: @primary-light;
+      color: @primary-darkest;
+      margin-left: @relative-small;
+    }
+
+    .session-join .submit:focus, .session-join .submit:hover {
+      border-color: @primary-dark;
+    }
+
+    .session-join .submit:active {
+      background-color: @primary-light;
+      border-color: @primary-light;
+      color: @primary-darkest;
+    }
+
+    .new-session {
+      background-color: @tertiary-lightest;
+      border-color: @tertiary-light;
+      color: @tertiary-darkest;
+      font-size: @font-size-large;
+      padding: @fixed-large;
+    }
+
+    .new-session:focus, .new-session:hover {
+      border-color: @tertiary-dark;
+    }
+
+    .new-session:active {
+      background-color: @tertiary-light;
+      border-color: @tertiary-light;
+      color: @tertiary-darkest;
+    }
+
+    .h1 {
+      font-size: @font-size-large + @fixed-large;
+      font-weight: @font-weight-bold;
+      display: inline-block;
+      margin: 0;
+    }
+
+    .heading {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
