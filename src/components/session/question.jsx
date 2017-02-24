@@ -1,29 +1,46 @@
 import React from 'react';
 import { questionShape } from 'types/prop-types';
 import preventDefault from 'lib/prevent-default';
-import { join, filter, identity, compose } from 'ramda';
+import { join, filter, identity, compose, pick } from 'ramda';
 
 const condClass = (className) => (cond) => cond ? className : '';
 const upvotedByMeClass = condClass('upvoted');
 const answeredClass = condClass('answered');
 
-const SessionQuestion = ({ questionText, questionVotes, questionAnswered, questionId, upvoteQuestion, upvotedByMe }) => (
+export const QuestionerQuestion = ({ questionText, questionVotes, questionAnswered, upvotedByMe }) => (
+  <div className={`data ${answeredClass(questionAnswered)}`}>
+    <span className={`votes ${upvotedByMeClass(upvotedByMe)}`}>{questionVotes.length}</span>
+    <span className='text'>{questionText}</span>
+  </div>
+);
 
+QuestionerQuestion.propTypes = {
+  upvotedByMe: React.PropTypes.bool.isRequired,
+  ...pick(['questionText', 'questionVotes', 'questionAnswered'], questionShape)
+};
+
+export const QuestionerActions = ({ upvotedByMe, upvoteQuestion, questionId }) => (
+  <button disabled={upvotedByMe} onClick={() => upvoteQuestion(questionId)} className={`upvote ${upvotedByMeClass(upvotedByMe)}`}>Upvote</button>
+);
+
+QuestionerActions.propTypes = {
+  upvoteQuestion: React.PropTypes.func.isRequired,
+  upvotedByMe: React.PropTypes.bool.isRequired,
+  ...pick(['questionId'], questionShape)
+};
+
+const SessionQuestion = ({ Question, Actions }) => (
   <div className='question'>
-    <div className={`data ${answeredClass(questionAnswered)}`}>
-      <span className={`votes ${upvotedByMeClass(upvotedByMe)}`}>{questionVotes.length}</span>
-      <span className='text'>{questionText}</span>
-    </div>
+    {Question}
     <div className='actions'>
-      <button disabled={upvotedByMe} onClick={() => upvoteQuestion(questionId)} className={`upvote ${upvotedByMeClass(upvotedByMe)}`}>Upvote</button>
+      {Actions}
     </div>
   </div>
 );
 
 SessionQuestion.propTypes = {
-  ...questionShape,
-  upvoteQuestion: React.PropTypes.func.isRequired,
-  upvotedByMe: React.PropTypes.bool.isRequired
+  Question: React.PropTypes.element.isRequired,
+  Actions: React.PropTypes.element.isRequired,
 };
 
 export default SessionQuestion;

@@ -4,10 +4,34 @@ import { changeScreen } from 'reducers/change-screens';
 import { DASHBOARD, QUESTIONER } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
-import Question from './question';
+import SessionQuestion, { QuestionerActions, QuestionerQuestion } from './question';
 import { askQuestion, upvoteQuestion } from 'reducers/session';
-import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition } from 'ramda';
+import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
 require('styles/session.less')
+
+const makeQuestionerQuestion = curry((me, upvoteQuestion, question) => {
+  const upvotedByMe = contains(me.id, question.questionVotes);
+  const Question =
+    <QuestionerQuestion
+      {...pick(['questionText', 'questionVotes', 'questionAnswered'], question)}
+      upvotedByMe={upvotedByMe}
+      />;
+  const Actions =
+    <QuestionerActions
+      {...pick(['questionId'], question)}
+      upvoteQuestion={upvoteQuestion}
+      upvotedByMe={upvotedByMe}
+      />;
+
+  return (
+    <li key={question.questionId}>
+      <SessionQuestion
+        Question={Question}
+        Actions={Actions}
+        />
+    </li>
+  );
+});
 
 const Session = ({
   id,
@@ -32,11 +56,7 @@ const Session = ({
     <h3 className='h3'>Questions:</h3>
     {me.type === QUESTIONER && <AskQuestion askQuestion={askQuestion} />}
     <ul className='questions'>
-      {compose(map((question) => (
-        <li key={question.questionId}>
-          <Question {...question} upvoteQuestion={upvoteQuestion} upvotedByMe={contains(me.id, question.questionVotes)}/>
-        </li>
-      )), flatten, partition(prop('questionAnswered')), reverse, sortBy(prop('questionVotes')), values)(questions)}
+      {compose(map(makeQuestionerQuestion(me, upvoteQuestion)), flatten, partition(prop('questionAnswered')), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
     <h3 className='h3'>Questioners:</h3>
     <ul className='questioners'>
