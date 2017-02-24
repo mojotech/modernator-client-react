@@ -7,6 +7,7 @@ import AskQuestion from './ask-question';
 import Question from './question';
 import { askQuestion, upvoteQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains } from 'ramda';
+require('styles/session.less')
 
 const Session = ({
   id,
@@ -24,24 +25,21 @@ const Session = ({
 }) => (
   <div className='session'>
     <div className='header'>
-      <p>{name} - {locked}</p>
-      <p>by {answerer.name}</p>
-      <p>You are {me.name}</p>
+      <h1 className='h1'>{name}</h1>
+      <h2 className='h2'>{answerer.name}</h2>
+      {me.name && <p>You are {me.name}</p>}
     </div>
+    <h3 className='h3'>Questions:</h3>
     {me.type === QUESTIONER && <AskQuestion askQuestion={askQuestion} />}
     <ul className='questions'>
       {compose(map((question) => (
-        <li key={question.questionId} className='question'>
+        <li key={question.questionId}>
           <Question {...question} upvoteQuestion={upvoteQuestion} upvotedByMe={contains(me.id, question.questionVotes)}/>
         </li>
       )), reverse, sortBy(prop('questionVotes')), values)(questions)}
     </ul>
+    <h3 className='h3'>Questioners:</h3>
     <ul className='questioners'>
-      {anonymousQuestioners > 0 &&
-        <li>
-          {anonymousQuestioners} Anonymous
-        </li>
-      }
       {map(({
         questionerId,
         name
@@ -50,6 +48,11 @@ const Session = ({
           {name}
         </li>
       ), questioners)}
+      {anonymousQuestioners > 0 &&
+        <li className='anonymous'>
+          {anonymousQuestioners} Anonymous
+        </li>
+      }
     </ul>
     <button onClick={leave}>Leave Session</button>
   </div>

@@ -12,7 +12,7 @@ const Main = ({ screen }) => {
   case NEW_SESSION:
     return <div className='new-session-root'><NewSession /></div>
   case SESSION:
-    return <Session />
+    return <div className='session-root'><Session /></div>
   default:
     throw 'undefined screen';
   }
