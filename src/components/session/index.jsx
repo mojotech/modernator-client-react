@@ -82,7 +82,7 @@ const Session = ({
         me.type === ANSWERER ?
           makeAnswererQuestion(answerQuestion, question) :
           makeQuestionerQuestion(me, upvoteQuestion, question)
-      )), flatten, partition(prop('questionAnswered')), reverse, sortBy(prop('questionVotes')), values)(questions)}
+      )), flatten, partition(prop('questionAnswered')), reverse, sortBy(compose(prop('length'), prop('questionVotes'))), values)(questions)}
     </ul>
     <h3 className='h3'>Questioners:</h3>
     <ul className='questioners'>
