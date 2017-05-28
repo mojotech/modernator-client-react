@@ -6,6 +6,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { actionSideEffectMiddleware } from 'redux-side-effect';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { RouterProvider, routerForBrowser } from 'redux-little-router';
+import routes from 'lib/routes';
 
 require('styles/base.less');
 
@@ -13,11 +14,6 @@ require('styles/base.less');
 import dashboard from 'reducers/dashboard';
 import session from 'reducers/session';
 
-const routes = {
-  '/': {},
-  '/new': {},
-  '/session/:sessionId': {}
-};
 const router = routerForBrowser({
   routes
 })
