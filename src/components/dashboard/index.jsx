@@ -5,17 +5,13 @@ import { dashboardReset } from 'reducers/dashboard';
 import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
 import Session from './session';
+import Heading from './heading';
 import { curry, compose } from 'ramda';
-import { Link } from 'redux-little-router';
-import { newSession } from 'lib/routes';
 require('styles/dashboard.less');
 
 const Dashboard = ({ sessions, loading, joinSession, rejoinSession }) => (
   <div className='dashboard' >
-    <div className='heading'>
-      <Link className='new-session' href={newSession()}>New Session</Link>
-      <h1 className='h1'>Modernator</h1>
-    </div>
+    <Heading />
     {loading && <p>"Loading..."</p>}
     <ul className='session-list'>
       {sessions.map((session) =>
