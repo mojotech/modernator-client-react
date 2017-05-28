@@ -10,7 +10,7 @@ export function session(sessionId = ':sessionId') {
   return `/session/${sessionId}`
 }
 
-export function isRoute(router, route) {
+export function isRoute(route, router) {
   return router.pathname === route;
 }
 

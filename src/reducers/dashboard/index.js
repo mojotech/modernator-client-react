@@ -21,7 +21,7 @@ const dashboard = (state = initialState, action) => {
   case 'dashboard/set-interval':
     return { ...state, interval: action.payload };
   case LOCATION_CHANGED:
-    if (!isRoute(action, dashboardRoute())) {
+    if (!isRoute(dashboardRoute(), action)) {
       action.sideEffect(clearInterval(state.interval));
     }
     return state;
