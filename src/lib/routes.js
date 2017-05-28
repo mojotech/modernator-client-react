@@ -10,6 +10,10 @@ export function session(sessionId = ':sessionId') {
   return `/session/${sessionId}`
 }
 
+export function isRoute(router, route) {
+  return router.pathname === route;
+}
+
 export default {
   [dashboard()]: {},
   [newSession()]: {},

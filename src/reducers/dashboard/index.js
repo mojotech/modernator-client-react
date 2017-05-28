@@ -3,6 +3,7 @@ import { action } from 'types/common';
 import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
 import { LOCATION_CHANGED } from 'redux-little-router';
+import { isRoute, dashboard as dashboardRoute } from 'lib/routes';
 
 const initialState = {
   sessions: [],
@@ -20,7 +21,7 @@ const dashboard = (state = initialState, action) => {
   case 'dashboard/set-interval':
     return { ...state, interval: action.payload };
   case LOCATION_CHANGED:
-    if (action.pathname !== '/dashboard') {
+    if (!isRoute(action, dashboardRoute())) {
       action.sideEffect(clearInterval(state.interval));
     }
     return state;
