@@ -33,7 +33,8 @@ module.exports = {
       lib: path.resolve('./src/lib'),
       types: path.resolve('./src/types'),
       reducers: path.resolve('./src/reducers'),
-      styles: path.resolve('./src/styles')
+      styles: path.resolve('./src/styles'),
+      middleware: path.resolve('./src/middleware')
     }
   },
 

@@ -30,11 +30,11 @@ const session = (state=initialState, action) => {
     action.sideEffect(createAndJoinSession(action.payload));
     return { ...initialState };
   case 'session/join':
-    action.sideEffect((d) => d(push(sessionRoute(action.payload.sessionId))));
+    action.router.push(sessionRoute(action.payload.sessionId));
     action.sideEffect(joinAndFetchSession(action.payload.sessionId, action.payload.name));
     return { ...initialState };
   case 'session/rejoin':
-    action.sideEffect((d) => d(push(sessionRoute(action.payload.sessionId))));
+    action.router.push(sessionRoute(action.payload.sessionId));
     action.sideEffect(rejoinAndFetchSession(action.payload.sessionId));
     return { ...initialState };
   case 'session/load':
