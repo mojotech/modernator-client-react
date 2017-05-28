@@ -1,8 +1,8 @@
-import { action, SESSION, QUESTIONER, ANSWERER } from 'types/common';
-import { changeScreen } from 'reducers/change-screens';
+import { action, QUESTIONER, ANSWERER } from 'types/common';
 import { compose, prop, curry, indexBy, filter, isNil, not } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
+import { push } from 'redux-little-router';
 
 const initialState = {
   id: null,
@@ -23,18 +23,19 @@ const initialState = {
   questions: []
 };
 
+const routeToSession = (sessionId) => ({ pathname: `/session/${sessionId}` });
+
 const session = (state=initialState, action) => {
   switch(action.type) {
   case 'session/create':
-    action.sideEffect((d) => d(changeScreen(SESSION)));
     action.sideEffect(createAndJoinSession(action.payload));
     return { ...initialState };
   case 'session/join':
-    action.sideEffect((d) => d(changeScreen(SESSION)));
+    action.sideEffect((d) => d(push(routeToSession(action.payload.sessionId))));
     action.sideEffect(joinAndFetchSession(action.payload.sessionId, action.payload.name));
     return { ...initialState };
   case 'session/rejoin':
-    action.sideEffect((d) => d(changeScreen(SESSION)));
+    action.sideEffect((d) => d(push(routeToSession(action.payload.sessionId))));
     action.sideEffect(rejoinAndFetchSession(action.payload.sessionId));
     return { ...initialState };
   case 'session/load':
@@ -235,6 +236,7 @@ const createAndJoinSession = curry(({ topic, name }, dispatch) => (
     .then((a) => {
       dispatch(setSelfAnswerer(a));
       dispatch(setSessionSocket(a.sessionId, dispatch));
+      dispatch(push(routeToSession(a.sessionId)));
     })
 ));
 

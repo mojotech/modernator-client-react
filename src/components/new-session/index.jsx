@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from 'reducers/change-screens';
-import { SESSION, DASHBOARD } from 'types/common';
 import { curry, compose } from 'ramda';
 import { createSession } from 'reducers/session';
 import preventDefault from 'lib/prevent-default';
 import StatefulForm from 'components/stateful-form';
+import { goBack } from 'redux-little-router';
 require('styles/new-session.less')
 
 const NewSessionForm = curry((submitSession, cancel, { onSubmit, onChange, topic='', name='' }) =>
@@ -39,7 +38,7 @@ NewSession.propTypes = {
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
   submitSession: compose(dispatch, createSession),
-  cancel: () => dispatch(changeScreen(DASHBOARD))
+  cancel: () => dispatch(goBack())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSession);

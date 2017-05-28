@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from 'reducers/change-screens';
-import { DASHBOARD, QUESTIONER, ANSWERER } from 'types/common';
+import { QUESTIONER, ANSWERER } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
 import SessionQuestion, { QuestionerActions, QuestionerQuestion, AnswererQuestion, AnswererActions } from './question';
 import { askQuestion, upvoteQuestion, answerQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
+import { goBack } from 'redux-little-router';
 require('styles/session.less')
 
 const makeQuestionerQuestion = curry((me, upvoteQuestion, question) => {
@@ -108,7 +108,7 @@ Session.propTypes = SessionProp.isRequired;
 
 const mapStateToProps = (state) => (state.session);
 const mapDispatchToProps = (dispatch) => ({
-  leave: () => dispatch(changeScreen(DASHBOARD)),
+  leave: () => dispatch(goBack()),
   askQuestion: compose(dispatch, askQuestion),
   upvoteQuestion: compose(dispatch, upvoteQuestion),
   answerQuestion: compose(dispatch, answerQuestion)

@@ -4,7 +4,7 @@
   margin: 0;
 }
 
-button {
+button, a {
   border-radius: @border-radius-large;
   border: @border-solid;
   border-color: @accent-light;
@@ -16,11 +16,13 @@ button {
   text-align: center;
 }
 
-button:focus, button:hover {
+button:focus, button:hover,
+a:focus, a:hover {
   border-color: @accent-dark;
 }
 
-button:active {
+button:active,
+a:active {
   border-color: @accent-light;
   background: @accent-light;
   color: @accent-darkest;

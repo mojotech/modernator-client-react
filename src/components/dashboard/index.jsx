@@ -1,19 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeScreen } from 'reducers/change-screens';
 import { joinSession, rejoinSession } from 'reducers/session';
 import { dashboardReset } from 'reducers/dashboard';
-import { NEW_SESSION, SESSION } from 'types/common';
 import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
 import Session from './session';
 import { curry, compose } from 'ramda';
+import { Link } from 'redux-little-router';
 require('styles/dashboard.less');
 
-const Dashboard = ({ sessions, loading, createNewSession, joinSession, rejoinSession }) => (
+const Dashboard = ({ sessions, loading, joinSession, rejoinSession }) => (
   <div className='dashboard' >
     <div className='heading'>
-      <button className='new-session' onClick={createNewSession}>New Session</button>
+      <Link className='new-session' href="/new">New Session</Link>
       <h1 className='h1'>Modernator</h1>
     </div>
     {loading && <p>"Loading..."</p>}
@@ -33,7 +32,6 @@ Dashboard.propTypes = {
 
 const mapStateToProps = (state) => (state.dashboard);
 const mapDispatchToProps = (dispatch) => ({
-  createNewSession: () => dispatch(changeScreen(NEW_SESSION)),
   joinSession: curry((sessionId, name) => dispatch(joinSession(sessionId, name))),
   rejoinSession: compose(dispatch, rejoinSession),
   initialize: () => dispatch(dashboardReset)

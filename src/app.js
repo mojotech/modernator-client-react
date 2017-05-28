@@ -2,29 +2,47 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './main';
 import { Provider} from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
 import { actionSideEffectMiddleware } from 'redux-side-effect';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { RouterProvider, routerForBrowser } from 'redux-little-router';
+
 require('styles/base.less');
 
 // reducers
-import changeScreens from 'reducers/change-screens';
 import dashboard from 'reducers/dashboard';
 import session from 'reducers/session';
 
+const routes = {
+  '/': {},
+  '/new': {},
+  '/session/:sessionId': {}
+};
+const router = routerForBrowser({
+  routes
+})
+
 function reducer(state={}, action) {
   return {
-    screen: changeScreens(state.screen, action),
     dashboard: dashboard(state.dashboard, action),
-    session: session(state.session, action)
+    session: session(state.session, action),
+    router: router.reducer(state.router, action)
   };
 }
 
-const store = createStore(reducer, composeWithDevTools(
-  applyMiddleware(actionSideEffectMiddleware)
-));
+const store = createStore(reducer,
+  composeWithDevTools(
+    router.enhancer,
+    applyMiddleware(
+      actionSideEffectMiddleware,
+      router.middleware
+    )
+  )
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Main />
+    <RouterProvider store={store}>
+      <Main />
+    </RouterProvider>
   </Provider>, document.getElementById('root'));

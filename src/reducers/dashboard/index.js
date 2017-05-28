@@ -1,8 +1,8 @@
 import { curry, compose, filter, reduce, map } from 'ramda';
-import { action, DASHBOARD } from 'types/common';
+import { action } from 'types/common';
 import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
-import { CHANGE_SCREEN, getScreen } from '../change-screens';
+import { LOCATION_CHANGED } from 'redux-little-router';
 
 const initialState = {
   sessions: [],
@@ -19,8 +19,8 @@ const dashboard = (state = initialState, action) => {
     return initialState;
   case 'dashboard/set-interval':
     return { ...state, interval: action.payload };
-  case CHANGE_SCREEN:
-    if (getScreen(action) !== DASHBOARD) {
+  case LOCATION_CHANGED:
+    if (action.pathname !== '/dashboard') {
       action.sideEffect(clearInterval(state.interval));
     }
     return state;
