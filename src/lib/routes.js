@@ -18,9 +18,14 @@ export function signIn() {
   return '/signin';
 }
 
+export function signUp() {
+  return '/signup';
+}
+
 export default {
   [dashboard()]: {},
   [newSession()]: {},
   [session()]: {},
-  [signIn()]: {}
+  [signIn()]: {},
+  [signUp()]: {}
 };
