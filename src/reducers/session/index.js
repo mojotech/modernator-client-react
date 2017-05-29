@@ -2,7 +2,7 @@ import { action } from 'types/common';
 import { compose, prop, curry, indexBy, map, isNil } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
-import { replace } from 'redux-little-router';
+import { replace, LOCATION_CHANGED } from 'redux-little-router';
 import { session as sessionRoute } from 'lib/routes';
 
 const initialState = {
@@ -53,6 +53,11 @@ const session = (state=initialState, action) => {
     return state;
   case 'session/questioner_joined':
     return { ...state, questioners: [ ...state.questioners, action.payload ] };
+  case LOCATION_CHANGED:
+    if(!isNil(action.payload.params.sessionId)) {
+      action.sideEffect(d => setSessionSocket(action.payload.params.sessionId, d));
+    }
+    return initialState;
   default:
     return state;
   }
