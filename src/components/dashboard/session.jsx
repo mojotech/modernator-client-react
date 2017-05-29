@@ -14,9 +14,7 @@ const DashboardSession = ({ session, answerer, totals, joinSession }) => (
       </p>
     </div>
     <StatefulForm form={({ onSubmit, onChange, name='' }) => (
-      <form className='session-join' onSubmit={compose(joinSession(session.sessionId), propOr(null, 'name'), preventDefault(onSubmit))}>
-        <label htmlFor='name'>Join as</label>
-        <input className='name-input' value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
+      <form className='session-join' onSubmit={compose(joinSession(session.sessionId), preventDefault(onSubmit))}>
         <div className='actions'>
           <button className='submit' type='submit'>Join</button>
         </div>

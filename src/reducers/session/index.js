@@ -25,7 +25,7 @@ const session = (state=initialState, action) => {
     return { ...initialState };
   case 'session/join':
     action.router.push(sessionRoute(action.payload.sessionId));
-    action.sideEffect(joinAndFetchSession(action.payload.sessionId, action.payload.name));
+    action.sideEffect(joinAndFetchSession(action.payload.sessionId));
     return { ...initialState };
   case 'session/load':
     return { ...state, ...action.payload };
@@ -63,19 +63,18 @@ const session = (state=initialState, action) => {
   }
 };
 
-export function joinSession(sessionId, name) {
-  return action('session/join', { sessionId, name });
+export function joinSession(sessionId) {
+  return action('session/join', { sessionId });
 }
 
-const joinRequest = (sessionId, name) => {
+const joinRequest = (sessionId) => {
   const headers = new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' });
 
   return fetch(`${apiPath}/sessions/${sessionId}/join`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
-    headers: headers,
-    body: JSON.stringify({ questionerName: name })
+    headers: headers
   });
 };
 
@@ -83,8 +82,8 @@ function setSessionSocket(sessionId, dispatch) {
   return action('session/set_socket', openSessionSocket(sessionId, dispatch));
 }
 
-const joinAndFetchSession = curry((sessionId, name, dispatch) => {
-  return joinRequest(sessionId, name)
+const joinAndFetchSession = curry((sessionId, dispatch) => {
+  return joinRequest(sessionId)
     .then(requestJson)
     .then((q) => {
       // store socket on state so it doesn't get garbage collected

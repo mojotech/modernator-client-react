@@ -32,7 +32,7 @@ const mapStateToProps = (state) => ({
   user: state.user.user
 });
 const mapDispatchToProps = (dispatch) => ({
-  joinSession: curry((sessionId, name) => dispatch(joinSession(sessionId, name))),
+  joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId))),
   initialize: () => dispatch(dashboardReset)
 });
 
