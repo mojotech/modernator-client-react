@@ -14,8 +14,13 @@ export function isRoute(route, router) {
   return router.pathname === route;
 }
 
+export function signIn() {
+  return '/signin';
+}
+
 export default {
   [dashboard()]: {},
   [newSession()]: {},
-  [session()]: {}
+  [session()]: {},
+  [signIn()]: {}
 };
