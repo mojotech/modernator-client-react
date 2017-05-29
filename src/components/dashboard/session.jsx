@@ -13,7 +13,7 @@ const DashboardSession = ({ session, answerer, totals, joinSession }) => (
         {totals.questioners} Questioners, {totals.answeredQuestions}/{totals.questions} Questions Answered
       </p>
     </div>
-    <StatefulForm form={({ onSubmit, onChange, name='' }) => (
+    <StatefulForm form={({ onSubmit, onChange }) => (
       <form className='session-join' onSubmit={compose(joinSession(session.sessionId), preventDefault(onSubmit))}>
         <div className='actions'>
           <button className='submit' type='submit'>Join</button>
