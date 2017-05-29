@@ -6,7 +6,8 @@ module.exports = R.merge(baseConfig, {
   entry: './src/app.js',
   output: {
     path: './bin',
-    filename: 'app.bundle.js'
+    filename: 'app.bundle.js',
+    publicPath: '/'
   },
 
   // Dev server configuration
