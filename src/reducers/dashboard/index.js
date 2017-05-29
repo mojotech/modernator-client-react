@@ -15,16 +15,16 @@ const dashboard = (state = initialState, action) => {
   switch(action.type) {
   case 'dashboard/load-sessions':
     return { ...state, loading: false, sessions: action.payload };
-  case 'dashboard/reset':
-    action.sideEffect(fetchDashboard);
-    return initialState;
   case 'dashboard/set-interval':
     return { ...state, interval: action.payload };
   case LOCATION_CHANGED:
-    if (!isRoute(dashboardRoute(), action)) {
+    if (!isRoute(dashboardRoute(), action.payload)) {
       action.sideEffect(clearInterval(state.interval));
+      return state;
+    } else {
+      action.sideEffect(fetchDashboard);
+      return initialState;
     }
-    return state;
   default:
     return state;
   }
@@ -34,8 +34,6 @@ const clearInterval = curry((interval, dispatch) => {
   clearInterval(interval);
   dispatch(action('dashboard/set-interval', null));
 })
-
-export const dashboardReset = action('dashboard/reset', null);
 
 export function fetchDashboard(dispatch) {
   const interval = setInterval(() => dashboardRequest(dispatch), 30 * 1000);

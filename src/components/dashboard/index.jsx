@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { joinSession } from 'reducers/session';
-import { dashboardReset } from 'reducers/dashboard';
 import { DashboardSession } from 'types/prop-types';
-import onInitialize from 'components/on-initialize';
 import Session from './session';
 import Heading from './heading';
 import { curry, compose } from 'ramda';
@@ -32,8 +30,7 @@ const mapStateToProps = (state) => ({
   user: state.user.user
 });
 const mapDispatchToProps = (dispatch) => ({
-  joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId))),
-  initialize: () => dispatch(dashboardReset)
+  joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId)))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(onInitialize(Dashboard, 'initialize'));
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
