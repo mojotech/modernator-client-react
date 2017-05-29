@@ -138,5 +138,29 @@
       display: flex;
       justify-content: space-between;
     }
+
+    .sign-in, .sign-up {
+      background-color: @primary-lightest;
+      border-color: @primary-light;
+      color: @primary-darkest;
+      font-size: @font-size-large;
+      padding: @fixed-large;
+    }
+
+    .sign-up {
+      background-color: @primary-light;
+      margin-right: @fixed-large;
+    }
+
+    .sign-in:focus, .sign-in:hover,
+    .sign-up:focus, .sign-up:hover {
+      border-color: @primary-dark;
+    }
+
+    .sign-in:active, .sign-up:active {
+      background-color: @primary-light;
+      border-color: @primary-light;
+      color: @primary-darkest;
+    }
   }
 }

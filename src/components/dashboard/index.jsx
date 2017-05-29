@@ -9,9 +9,9 @@ import Heading from './heading';
 import { curry, compose } from 'ramda';
 require('styles/dashboard.less');
 
-const Dashboard = ({ sessions, loading, joinSession, rejoinSession }) => (
+const Dashboard = ({ sessions, loading, user, joinSession, rejoinSession }) => (
   <div className='dashboard' >
-    <Heading />
+    <Heading user={user} />
     {loading && <p>"Loading..."</p>}
     <ul className='session-list'>
       {sessions.map((session) =>
@@ -27,7 +27,10 @@ Dashboard.propTypes = {
   sessions: React.PropTypes.arrayOf(DashboardSession).isRequired,
 };
 
-const mapStateToProps = (state) => (state.dashboard);
+const mapStateToProps = (state) => ({
+  ...state.dashboard,
+  user: state.user.user
+});
 const mapDispatchToProps = (dispatch) => ({
   joinSession: curry((sessionId, name) => dispatch(joinSession(sessionId, name))),
   rejoinSession: compose(dispatch, rejoinSession),
