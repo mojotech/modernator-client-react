@@ -15,6 +15,7 @@ require('styles/base.less');
 import dashboard from 'reducers/dashboard';
 import session from 'reducers/session';
 import user from 'reducers/user';
+import { initialize } from 'reducers/initialize';
 
 const router = routerForBrowser({
   routes
@@ -39,6 +40,9 @@ const store = createStore(reducer,
     )
   )
 );
+
+// initialize anything that needs initializing
+store.dispatch(initialize);
 
 ReactDOM.render(
   <Provider store={store}>
