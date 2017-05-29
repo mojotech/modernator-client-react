@@ -184,21 +184,20 @@ const answerQuestionRequest = curry((sessionId, questionId, dispatch) => (
 
 export const createSession = action('session/create');
 
-const createSessionRequest = (topic, name) => (
+const createSessionRequest = (topic) => (
   fetch(`${apiPath}/sessions`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
     headers: new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' }),
     body: JSON.stringify({
-      sessionName: topic,
-      answererName: name
+      sessionName: topic
     })
   })
 );
 
-const createAndJoinSession = curry(({ topic, name }, dispatch) => (
-  createSessionRequest(topic, name)
+const createAndJoinSession = curry(({ topic }, dispatch) => (
+  createSessionRequest(topic)
     .then(requestJson)
     .then((a) => {
       dispatch(setSelfAnswerer(a));
