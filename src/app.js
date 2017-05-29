@@ -5,7 +5,7 @@ import { Provider} from 'react-redux';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { actionSideEffectMiddleware } from 'redux-side-effect';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { RouterProvider, routerForBrowser } from 'redux-little-router';
+import { RouterProvider, routerForBrowser, initializeCurrentLocation } from 'redux-little-router';
 import routes from 'lib/routes';
 import routerSideEffects from 'middleware/router-side-effects';
 
@@ -43,6 +43,10 @@ const store = createStore(reducer,
 
 // initialize anything that needs initializing
 store.dispatch(initialize);
+const initialLocation = store.getState().router;
+if(initialLocation) {
+  store.dispatch(initializeCurrentLocation(initialLocation));
+}
 
 ReactDOM.render(
   <Provider store={store}>
