@@ -31,7 +31,7 @@ const dashboard = (state = initialState, action) => {
 };
 
 const clearInterval = curry((interval, dispatch) => {
-  clearInterval(interval);
+  window.clearInterval(interval);
   dispatch(action('dashboard/set-interval', null));
 })
 
