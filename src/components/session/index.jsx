@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { QUESTIONER, ANSWERER } from 'types/common';
 import { Session as SessionProp} from 'types/prop-types';
 import AskQuestion from './ask-question';
-import SessionQuestion, { QuestionerActions, QuestionerQuestion, AnswererQuestion, AnswererActions } from './question';
+import SessionQuestion, { QuestionerActions, QuestionerQuestion, AnswererQuestion, AnswererActions, AnonymousQuestion } from './question';
 import { askQuestion, upvoteQuestion, answerQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
 import { goBack } from 'redux-little-router';
+import { isQuestionerForSession, isAnswererForSession } from 'types/user';
 require('styles/session.less')
 
 const makeQuestionerQuestion = curry((me, upvoteQuestion, question) => {
@@ -54,6 +54,22 @@ const makeAnswererQuestion = curry((answerQuestion, question) => {
   );
 });
 
+const makeAnonymousQuestion = (question) => {
+  const Question =
+    <AnonymousQuestion
+      {...pick(['questionText', 'questionVotes', 'questionAnswered'], question)}
+      />;
+
+  return (
+    <li key={question.questionId}>
+      <SessionQuestion
+        Question={Question}
+        Actions={null}
+        />
+    </li>
+  );
+};
+
 const Session = ({
   id,
   name,
@@ -61,52 +77,56 @@ const Session = ({
   me,
   answerer,
   questioners,
-  anonymousQuestioners,
   questions,
   loading,
   leave,
   askQuestion,
   upvoteQuestion,
   answerQuestion
-}) => (
-  <div className='session'>
-    <div className='header'>
-      <h1 className='h1'>{name}</h1>
-      <h2 className='h2'>{answerer.name}</h2>
-      {me.name && <p>You are {me.name}</p>}
+}) => {
+  if (isNil(id)) {
+    return <span>Loading...</span>;
+  }
+
+  return (
+    <div className='session'>
+      <div className='header'>
+        <h1 className='h1'>{name}</h1>
+        <h2 className='h2'>{answerer.name}</h2>
+        {me && <p>You are {me.name}</p>}
+      </div>
+      <h3 className='h3'>Questions:</h3>
+      {isQuestionerForSession(me, id) && <AskQuestion askQuestion={askQuestion} />}
+      <ul className='questions'>
+        {compose(map((question) => {
+          if (isAnswererForSession(me, id)) {
+            return makeAnswererQuestion(answerQuestion, question);
+          } else if (isQuestionerForSession(me, id)) {
+            return makeQuestionerQuestion(me, upvoteQuestion, question);
+          } else {
+            return makeAnonymousQuestion(question);
+          }
+        }), flatten, partition(prop('questionAnswered')), reverse, sortBy(compose(prop('length'), prop('questionVotes'))), values)(questions)}
+      </ul>
+      <h3 className='h3'>Questioners:</h3>
+      <ul className='questioners'>
+        {map(({
+          id,
+          name
+        }) => (
+          <li key={id} className='questioner'>
+            {name}
+          </li>
+        ), questioners)}
+      </ul>
+      <button onClick={leave}>Leave Session</button>
     </div>
-    <h3 className='h3'>Questions:</h3>
-    {me.type === QUESTIONER && <AskQuestion askQuestion={askQuestion} />}
-    <ul className='questions'>
-      {compose(map((question) => (
-        me.type === ANSWERER ?
-          makeAnswererQuestion(answerQuestion, question) :
-          makeQuestionerQuestion(me, upvoteQuestion, question)
-      )), flatten, partition(prop('questionAnswered')), reverse, sortBy(compose(prop('length'), prop('questionVotes'))), values)(questions)}
-    </ul>
-    <h3 className='h3'>Questioners:</h3>
-    <ul className='questioners'>
-      {map(({
-        questionerId,
-        name
-      }) => (
-        <li key={questionerId} className='questioner'>
-          {name}
-        </li>
-      ), questioners)}
-      {anonymousQuestioners > 0 &&
-        <li className='anonymous'>
-          {anonymousQuestioners} Anonymous
-        </li>
-      }
-    </ul>
-    <button onClick={leave}>Leave Session</button>
-  </div>
-);
+  );
+};
 
 Session.propTypes = SessionProp.isRequired;
 
-const mapStateToProps = (state) => (state.session);
+const mapStateToProps = (state) => ({ ...state.session, me: state.user.user });
 const mapDispatchToProps = (dispatch) => ({
   leave: () => dispatch(goBack()),
   askQuestion: compose(dispatch, askQuestion),

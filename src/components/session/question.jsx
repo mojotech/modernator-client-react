@@ -49,6 +49,17 @@ AnswererActions.propTypes = {
   ...pick(['questionId, questionAnswered'], questionShape)
 };
 
+export const AnonymousQuestion = ({ questionText, questionVotes, questionAnswered }) => (
+  <div className={`data ${answeredClass(questionAnswered)}`}>
+    <span className={`votes`}>{questionVotes.length}</span>
+    <span className='text'>{questionText}</span>
+  </div>
+);
+
+AnonymousQuestion.propTypes = {
+  ...pick(['questionText', 'questionVotes', 'questionAnswered'], questionShape)
+};
+
 const SessionQuestion = ({ Question, Actions }) => (
   <div className='question'>
     {Question}
@@ -60,7 +71,7 @@ const SessionQuestion = ({ Question, Actions }) => (
 
 SessionQuestion.propTypes = {
   Question: React.PropTypes.element.isRequired,
-  Actions: React.PropTypes.element.isRequired,
+  Actions: React.PropTypes.element,
 };
 
 export default SessionQuestion;

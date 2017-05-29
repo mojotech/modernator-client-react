@@ -1,5 +1,5 @@
-import { action, QUESTIONER, ANSWERER } from 'types/common';
-import { compose, prop, curry, indexBy, filter, isNil, not } from 'ramda';
+import { action } from 'types/common';
+import { compose, prop, curry, indexBy, map, isNil } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
 import { replace } from 'redux-little-router';
@@ -10,17 +10,11 @@ const initialState = {
   name: null,
   locked: null,
   loading: true,
-  me: {
-    name: null,
-    type: null,
-    id: null
-  },
   socket: null,
   answerer: {
     name: null
   },
   questioners: [],
-  anonymousQuestioners: 0,
   questions: []
 };
 
@@ -37,8 +31,6 @@ const session = (state=initialState, action) => {
     return { ...state, ...action.payload };
   case 'session/set_socket':
     return { ...state, socket: action.payload };
-  case 'session/set_self':
-    return { ...state, me: action.payload };
   case 'session/lock':
     return { ...state, locked: true };
   case 'session/question_asked':
@@ -90,19 +82,10 @@ const joinAndFetchSession = curry((sessionId, name, dispatch) => {
   return joinRequest(sessionId, name)
     .then(requestJson)
     .then((q) => {
-      dispatch(setSelfQuestioner(q));
       // store socket on state so it doesn't get garbage collected
       dispatch(setSessionSocket(sessionId, dispatch));
     });
 });
-
-function setSelfQuestioner(q) {
-  return action('session/set_self', { id: q.questionerId, name: q.name, type: QUESTIONER });
-}
-
-function setSelfAnswerer(a) {
-  return action('session/set_self', { id: a.answererId, name: a.name, type: ANSWERER });
-}
 
 function openSessionSocket(sessionId, dispatch) {
   const socket = new WebSocket(`${wsPath}/sessions/${sessionId}/messages`);
@@ -136,15 +119,13 @@ function handleMessage(message) {
 }
 
 function toSessionInfo({ session, answerer, questioners, questions }) {
-  const questionersWithNames = filter(compose(not, isNil, prop('name')), questioners);
   return {
     id: session.sessionId,
     name: session.name,
     locked: session.locked,
-    answerer,
+    answerer: { id: answerer.userId, name: answerer.userName },
     questions: indexBy(prop('questionId'), questions),
-    questioners: questionersWithNames,
-    anonymousQuestioners: questioners.length - questionersWithNames.length
+    questioners: map(q => ({ id: q.userId, name: q.userName }), questioners)
   };
 }
 
@@ -200,7 +181,6 @@ const createAndJoinSession = curry(({ topic }, dispatch) => (
   createSessionRequest(topic)
     .then(requestJson)
     .then((a) => {
-      dispatch(setSelfAnswerer(a));
       dispatch(setSessionSocket(a.sessionId, dispatch));
       dispatch(replace(sessionRoute(a.sessionId)));
     })
