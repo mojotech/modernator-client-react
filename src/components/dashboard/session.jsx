@@ -4,7 +4,7 @@ import preventDefault from 'lib/prevent-default';
 import { compose, propOr } from 'ramda';
 import StatefulForm from 'components/stateful-form';
 
-const DashboardSession = ({ session, answerer, totals, joinSession, rejoinSession }) => (
+const DashboardSession = ({ session, answerer, totals, joinSession }) => (
   <div className='session'>
     <div className='session-info'>
       <span className='session-name'>{session.name}</span> by
@@ -19,7 +19,6 @@ const DashboardSession = ({ session, answerer, totals, joinSession, rejoinSessio
         <input className='name-input' value={name} type='text' placeholder='Dexter' onChange={onChange('name')} />
         <div className='actions'>
           <button className='submit' type='submit'>Join</button>
-          <button onClick={preventDefault(() => rejoinSession(session.sessionId))}>Rejoin</button>
         </div>
       </form>
     )} />
@@ -28,8 +27,7 @@ const DashboardSession = ({ session, answerer, totals, joinSession, rejoinSessio
 
 DashboardSession.propTypes = {
   ...dashboardSessionShape,
-  joinSession: React.PropTypes.func.isRequired,
-  rejoinSession: React.PropTypes.func.isRequired
+  joinSession: React.PropTypes.func.isRequired
 };
 
 export default DashboardSession;

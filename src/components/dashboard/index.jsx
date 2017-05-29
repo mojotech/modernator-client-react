@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { joinSession, rejoinSession } from 'reducers/session';
+import { joinSession } from 'reducers/session';
 import { dashboardReset } from 'reducers/dashboard';
 import { DashboardSession } from 'types/prop-types';
 import onInitialize from 'components/on-initialize';
@@ -9,14 +9,14 @@ import Heading from './heading';
 import { curry, compose } from 'ramda';
 require('styles/dashboard.less');
 
-const Dashboard = ({ sessions, loading, user, joinSession, rejoinSession }) => (
+const Dashboard = ({ sessions, loading, user, joinSession }) => (
   <div className='dashboard' >
     <Heading user={user} />
     {loading && <p>"Loading..."</p>}
     <ul className='session-list'>
       {sessions.map((session) =>
         <li key={session.session.sessionId}>
-          <Session {...session} joinSession={joinSession} rejoinSession={rejoinSession} />
+          <Session {...session} joinSession={joinSession} />
         </li>
       )}
     </ul>
@@ -33,7 +33,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   joinSession: curry((sessionId, name) => dispatch(joinSession(sessionId, name))),
-  rejoinSession: compose(dispatch, rejoinSession),
   initialize: () => dispatch(dashboardReset)
 });
 

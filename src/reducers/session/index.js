@@ -33,10 +33,6 @@ const session = (state=initialState, action) => {
     action.router.push(sessionRoute(action.payload.sessionId));
     action.sideEffect(joinAndFetchSession(action.payload.sessionId, action.payload.name));
     return { ...initialState };
-  case 'session/rejoin':
-    action.router.push(sessionRoute(action.payload.sessionId));
-    action.sideEffect(rejoinAndFetchSession(action.payload.sessionId));
-    return { ...initialState };
   case 'session/load':
     return { ...state, ...action.payload };
   case 'session/set_socket':
@@ -74,10 +70,6 @@ export function joinSession(sessionId, name) {
   return action('session/join', { sessionId, name });
 }
 
-export function rejoinSession(sessionId) {
-  return action('session/rejoin', { sessionId });
-}
-
 const joinRequest = (sessionId, name) => {
   const headers = new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' });
 
@@ -100,30 +92,6 @@ const joinAndFetchSession = curry((sessionId, name, dispatch) => {
     .then((q) => {
       dispatch(setSelfQuestioner(q));
       // store socket on state so it doesn't get garbage collected
-      dispatch(setSessionSocket(sessionId, dispatch));
-    });
-});
-
-const whoAmIRequest = (sessionId) => {
-  const headers = new Headers({ 'Content-type': 'application/json', 'Accept': 'application/json' });
-
-  return fetch(`${apiPath}/sessions/${sessionId}/me`, {
-    method: 'GET',
-    mode: 'cors',
-    credentials: 'include',
-    headers: headers
-  });
-};
-
-const rejoinAndFetchSession = curry((sessionId, dispatch) => {
-  return whoAmIRequest(sessionId)
-    .then(requestJson)
-    .then((me) => {
-      if (me['Left']) {
-        dispatch(setSelfAnswerer(me['Left']));
-      } else if (me['Right']) {
-        dispatch(setSelfQuestioner(me['Right']));
-      }
       dispatch(setSessionSocket(sessionId, dispatch));
     });
 });
