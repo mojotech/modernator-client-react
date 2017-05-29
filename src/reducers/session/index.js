@@ -2,7 +2,7 @@ import { action, QUESTIONER, ANSWERER } from 'types/common';
 import { compose, prop, curry, indexBy, filter, isNil, not } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
-import { push } from 'redux-little-router';
+import { replace } from 'redux-little-router';
 import { session as sessionRoute } from 'lib/routes';
 
 const initialState = {
@@ -202,7 +202,7 @@ const createAndJoinSession = curry(({ topic }, dispatch) => (
     .then((a) => {
       dispatch(setSelfAnswerer(a));
       dispatch(setSessionSocket(a.sessionId, dispatch));
-      dispatch(push(sessionRoute(a.sessionId)));
+      dispatch(replace(sessionRoute(a.sessionId)));
     })
 ));
 
