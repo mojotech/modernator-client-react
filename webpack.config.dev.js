@@ -15,7 +15,8 @@ module.exports = R.merge(baseConfig, {
     inline: true,
     host: 'localhost',
     port: 3000,
-    contentBase: './src'
+    contentBase: './src',
+    historyApiFallback: true
   },
 
   // Plugins
