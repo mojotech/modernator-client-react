@@ -1,4 +1,4 @@
-import { curry, compose, filter, reduce, map } from 'ramda';
+import { curry, compose, filter, reduce, map, indexBy, prop } from 'ramda';
 import { action } from 'types/common';
 import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
@@ -7,7 +7,7 @@ import { isRoute, dashboard as dashboardRoute } from 'lib/routes';
 import { serverToUser } from 'types/user';
 
 const initialState = {
-  sessions: [],
+  sessions: {},
   loading: true,
   interval: null
 };
@@ -46,11 +46,12 @@ export function fetchDashboard(dispatch) {
 function dashboardRequest(dispatch) {
   return fetch(`${apiPath}/sessions`)
     .then(requestJson)
-    .then(compose(dispatch, action('dashboard/load-sessions'), map(toDashboardSessionInfo)));
+    .then(compose(dispatch, action('dashboard/load-sessions'), indexBy(prop('id')), map(toDashboardSessionInfo)));
 }
 
 function toDashboardSessionInfo({ session, answerer, questioners, questions }) {
   return {
+    id: session.sessionId,
     session,
     answerer: serverToUser(answerer),
     totals: {
