@@ -45,7 +45,7 @@ const Main = ({ isLoading }) => {
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.user.isLoading || !state.initialized
+    isLoading: state.user.isLoading || !state.initialized || state.session.loading
   };
 };
 

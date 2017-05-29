@@ -9,7 +9,7 @@ const initialState = {
   id: null,
   name: null,
   locked: null,
-  loading: true,
+  loading: false,
   socket: null,
   answerer: {
     name: null
@@ -28,7 +28,7 @@ const session = (state=initialState, action) => {
     action.sideEffect(joinAndFetchSession(action.payload.sessionId));
     return { ...initialState };
   case 'session/load':
-    return { ...state, ...action.payload };
+    return { ...state, loading: false, ...action.payload };
   case 'session/set_socket':
     return { ...state, socket: action.payload };
   case 'session/lock':
@@ -56,8 +56,9 @@ const session = (state=initialState, action) => {
   case LOCATION_CHANGED:
     if(!isNil(action.payload.params.sessionId)) {
       action.sideEffect(d => setSessionSocket(action.payload.params.sessionId, d));
+      return { ...initialState, loading: true }
     }
-    return initialState;
+    return state;
   default:
     return state;
   }
