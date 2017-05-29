@@ -14,6 +14,7 @@ require('styles/base.less');
 // reducers
 import dashboard from 'reducers/dashboard';
 import session from 'reducers/session';
+import user from 'reducers/user';
 
 const router = routerForBrowser({
   routes
@@ -23,6 +24,7 @@ function reducer(state={}, action) {
   return {
     dashboard: dashboard(state.dashboard, action),
     session: session(state.session, action),
+    user: user(state.user, action),
     router: router.reducer(state.router, action)
   };
 }
