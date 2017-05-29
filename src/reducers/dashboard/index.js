@@ -4,6 +4,7 @@ import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
 import { LOCATION_CHANGED } from 'redux-little-router';
 import { isRoute, dashboard as dashboardRoute } from 'lib/routes';
+import { serverToUser } from 'types/user';
 
 const initialState = {
   sessions: [],
@@ -51,7 +52,7 @@ function dashboardRequest(dispatch) {
 function toDashboardSessionInfo({ session, answerer, questioners, questions }) {
   return {
     session,
-    answerer,
+    answerer: serverToUser(answerer),
     totals: {
       answeredQuestions: filter((a) => a.questionAnswered, questions).length,
       questions: questions.length,
