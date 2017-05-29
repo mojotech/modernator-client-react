@@ -7,17 +7,21 @@ import Heading from './heading';
 import { curry, compose } from 'ramda';
 require('styles/dashboard.less');
 
+const SessionList = ({ sessions, joinSession }) => (
+  <ul className='session-list'>
+    {sessions.map((session) =>
+      <li key={session.session.sessionId}>
+        <Session {...session} joinSession={joinSession} />
+      </li>
+    )}
+  </ul>
+);
+
 const Dashboard = ({ sessions, loading, user, joinSession }) => (
   <div className='dashboard' >
     <Heading user={user} />
     {loading && <p>"Loading..."</p>}
-    <ul className='session-list'>
-      {sessions.map((session) =>
-        <li key={session.session.sessionId}>
-          <Session {...session} joinSession={joinSession} />
-        </li>
-      )}
-    </ul>
+    <SessionList sessions={sessions} joinSession={joinSession} />
   </div>
 );
 
