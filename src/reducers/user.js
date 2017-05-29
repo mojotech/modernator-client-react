@@ -1,8 +1,9 @@
 import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
-import { curry, compose } from 'ramda';
+import { curry, compose, always } from 'ramda';
 import { action } from 'types/common';
 import { dashboard } from 'lib/routes';
+import { INITIALIZE } from 'reducers/initialize';
 
 const initialState = {
   isLoading: false,
@@ -21,6 +22,9 @@ const user = (state = initialState, action) => {
     return { ...initialState, isLoading: true };
   case 'user/loaded':
     return { isLoading: false, user: action.payload };
+  case INITIALIZE:
+    action.sideEffect(meRequest);
+    return { ...initialState, isLoading: true };
   default:
     return state;
   }
@@ -63,5 +67,14 @@ const signUpRequest = curry((name, password, dispatch) => {
   }).then(requestJson)
     .then(compose(dispatch, action('user/loaded'), toUser));
 });
+
+const meRequest = (dispatch) => {
+  return fetch(`${apiPath}/users/me`, {
+    credentials: 'include',
+    headers: new Headers({ 'Accept': 'application/json' })
+  }).then(requestJson)
+    .then(compose(dispatch, action('user/loaded'), toUser))
+    .catch(compose(dispatch, action('user/loaded'), always(null)));
+};
 
 export default user;
