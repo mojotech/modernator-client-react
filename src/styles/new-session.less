@@ -29,14 +29,19 @@
       justify-content: space-between;
       align-items: baseline;
       margin-bottom: @relative-small;
+
+      label {
+        font-size: @font-size-large;
+      }
     }
 
     .topic-input {
-      width: @fixed-large * 20;
+      width: @fixed-large * 30;
       margin-left: @relative-medium;
       background: @tertiary-lightest;
       border-color: @tertiary-medium;
       color: @tertiary-darkest;
+      font-size: @font-size-large;
     }
 
     .topic-input:focus, .topic-input:hover {
@@ -49,6 +54,10 @@
 
     .buttons {
       text-align: right;
+      button {
+        font-size: @font-size;
+        padding: @fixed-large;
+      }
     }
 
     .create-session {
