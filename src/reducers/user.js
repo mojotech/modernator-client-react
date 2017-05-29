@@ -4,6 +4,7 @@ import { curry, compose, always } from 'ramda';
 import { action } from 'types/common';
 import { dashboard } from 'lib/routes';
 import { INITIALIZE } from 'reducers/initialize';
+import { serverToUser } from 'types/user';
 
 const initialState = {
   isLoading: false,
@@ -30,14 +31,6 @@ const user = (state = initialState, action) => {
   }
 };
 
-function toUser(user) {
-  return {
-    name: user.userName,
-    answererSessions: user.answererSessions,
-    questionerSessions: user.questionerSessions
-  };
-}
-
 export const signIn = action('user/sign_in');
 const signInRequest = curry((name, password, dispatch) => {
   return fetch(`${apiPath}/users/login`, {
@@ -50,7 +43,7 @@ const signInRequest = curry((name, password, dispatch) => {
       loginPassword: password
     })
   }).then(requestJson)
-    .then(compose(dispatch, action('user/loaded'), toUser));
+    .then(compose(dispatch, action('user/loaded'), serverToUser));
 });
 
 export const signUp = action('user/sign_up');
@@ -65,7 +58,7 @@ const signUpRequest = curry((name, password, dispatch) => {
       userPassword: password
     })
   }).then(requestJson)
-    .then(compose(dispatch, action('user/loaded'), toUser));
+    .then(compose(dispatch, action('user/loaded'), serverToUser));
 });
 
 const meRequest = (dispatch) => {
@@ -73,7 +66,7 @@ const meRequest = (dispatch) => {
     credentials: 'include',
     headers: new Headers({ 'Accept': 'application/json' })
   }).then(requestJson)
-    .then(compose(dispatch, action('user/loaded'), toUser))
+    .then(compose(dispatch, action('user/loaded'), serverToUser))
     .catch(compose(dispatch, action('user/loaded'), always(null)));
 };
 
