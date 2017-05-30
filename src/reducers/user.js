@@ -4,11 +4,14 @@ import { curry, compose, always } from 'ramda';
 import { action } from 'types/common';
 import { dashboard } from 'lib/routes';
 import { INITIALIZE } from 'reducers/initialize';
+import { SESSION_CREATE, SESSION_JOIN } from 'reducers/session';
+import { DASHBOARD_RESET } from 'reducers/dashboard';
 import { serverToUser } from 'types/user';
 
 const initialState = {
   isLoading: false,
-  user: null
+  user: null,
+  dirty: false
 };
 
 const user = (state = initialState, action) => {
@@ -22,10 +25,19 @@ const user = (state = initialState, action) => {
     action.router.push(dashboard());
     return { ...initialState, isLoading: true };
   case 'user/loaded':
-    return { isLoading: false, user: action.payload };
+    return { isLoading: false, user: action.payload, dirty: false };
   case INITIALIZE:
     action.sideEffect(meRequest);
     return { ...initialState, isLoading: true };
+  case SESSION_CREATE:
+  case SESSION_JOIN:
+    return { ...state, dirty: true };
+  case DASHBOARD_RESET:
+    if (state.dirty) {
+      action.sideEffect(meRequest);
+      return { ...state, isLoading: true };
+    }
+    return state;
   default:
     return state;
   }

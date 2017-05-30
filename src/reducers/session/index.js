@@ -5,6 +5,9 @@ import requestJson from 'lib/request-json';
 import { push, replace, LOCATION_CHANGED } from 'redux-little-router';
 import { session as sessionRoute } from 'lib/routes';
 
+export const SESSION_CREATE = 'session/create';
+export const SESSION_JOIN = 'session/join';
+
 const initialState = {
   id: null,
   name: null,
@@ -20,10 +23,10 @@ const initialState = {
 
 const session = (state=initialState, action) => {
   switch(action.type) {
-  case 'session/create':
+  case SESSION_CREATE:
     action.sideEffect(createAndJoinSession(action.payload));
     return { ...initialState, loading: true };
-  case 'session/join':
+  case SESSION_JOIN:
     action.sideEffect(joinAndFetchSession(action.payload.sessionId));
     return { ...initialState, loading: true };
   case 'session/load':
@@ -68,7 +71,7 @@ const session = (state=initialState, action) => {
 };
 
 export function joinSession(sessionId) {
-  return action('session/join', { sessionId });
+  return action(SESSION_JOIN, { sessionId });
 }
 
 const joinRequest = (sessionId) => {
@@ -166,7 +169,7 @@ const answerQuestionRequest = curry((sessionId, questionId, dispatch) => (
   })
 ));
 
-export const createSession = action('session/create');
+export const createSession = action(SESSION_CREATE);
 
 const createSessionRequest = (topic) => (
   fetch(`${apiPath}/sessions`, {
