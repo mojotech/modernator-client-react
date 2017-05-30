@@ -57,6 +57,10 @@ const session = (state=initialState, action) => {
     if(!isNil(action.payload.params.sessionId)) {
       action.sideEffect(openSessionSocket(action.payload.params.sessionId));
       return { ...initialState, loading: true }
+    } else if (state.socket) {
+      // clean up on a location change
+      state.socket.close();
+      return { ...state, socket: null };
     }
     return state;
   default:
