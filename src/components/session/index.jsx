@@ -5,7 +5,6 @@ import AskQuestion from './ask-question';
 import SessionQuestion, { QuestionerActions, QuestionerQuestion, AnswererQuestion, AnswererActions, AnonymousQuestion } from './question';
 import { askQuestion, upvoteQuestion, answerQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
-import { goBack } from 'redux-little-router';
 import { isQuestionerForSession, isAnswererForSession } from 'types/user';
 require('styles/session.less')
 
@@ -79,7 +78,6 @@ const Session = ({
   questioners,
   questions,
   loading,
-  leave,
   askQuestion,
   upvoteQuestion,
   answerQuestion
@@ -119,7 +117,6 @@ const Session = ({
           </li>
         ), questioners)}
       </ul>
-      <button onClick={leave}>Leave Session</button>
     </div>
   );
 };
@@ -128,7 +125,6 @@ Session.propTypes = SessionProp.isRequired;
 
 const mapStateToProps = (state) => ({ ...state.session, me: state.user.user });
 const mapDispatchToProps = (dispatch) => ({
-  leave: () => dispatch(goBack()),
   askQuestion: compose(dispatch, askQuestion),
   upvoteQuestion: compose(dispatch, upvoteQuestion),
   answerQuestion: compose(dispatch, answerQuestion)
