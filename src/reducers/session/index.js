@@ -55,7 +55,7 @@ const session = (state=initialState, action) => {
     return { ...state, questioners: [ ...state.questioners, action.payload ] };
   case LOCATION_CHANGED:
     if(!isNil(action.payload.params.sessionId)) {
-      action.sideEffect(d => setSessionSocket(action.payload.params.sessionId, d));
+      action.sideEffect(openSessionSocket(action.payload.params.sessionId));
       return { ...initialState, loading: true }
     }
     return state;
@@ -79,20 +79,16 @@ const joinRequest = (sessionId) => {
   });
 };
 
-function setSessionSocket(sessionId, dispatch) {
-  return action('session/set_socket', openSessionSocket(sessionId, dispatch));
-}
-
 const joinAndFetchSession = curry((sessionId, dispatch) => {
   return joinRequest(sessionId)
     .then(requestJson)
     .then((q) => {
       // store socket on state so it doesn't get garbage collected
-      dispatch(setSessionSocket(sessionId, dispatch));
+      openSessionSocket(sessionId, dispatch);
     });
 });
 
-function openSessionSocket(sessionId, dispatch) {
+const openSessionSocket = curry((sessionId, dispatch) => {
   const socket = new WebSocket(`${wsPath}/sessions/${sessionId}/messages`);
   socket.onmessage = compose(dispatch, handleMessage, parseMessage);
   socket.onclose = (c) => {
@@ -101,8 +97,8 @@ function openSessionSocket(sessionId, dispatch) {
   socket.onerror = (e) => {
     console.log('Socket error: ', e);
   };
-  return socket;
-}
+  dispatch(action('session/set_socket', socket));
+})
 
 const parseMessage = compose(JSON.parse, prop('data'));
 
@@ -186,7 +182,7 @@ const createAndJoinSession = curry(({ topic }, dispatch) => (
   createSessionRequest(topic)
     .then(requestJson)
     .then((a) => {
-      dispatch(setSessionSocket(a.sessionId, dispatch));
+      openSessionSocket(a.sessionId, dispatch);
       dispatch(replace(sessionRoute(a.sessionId)));
     })
 ));
