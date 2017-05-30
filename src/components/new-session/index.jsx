@@ -4,10 +4,9 @@ import { curry, compose } from 'ramda';
 import { createSession } from 'reducers/session';
 import preventDefault from 'lib/prevent-default';
 import StatefulForm from 'components/stateful-form';
-import { goBack } from 'redux-little-router';
 require('styles/new-session.less')
 
-const NewSessionForm = curry((submitSession, cancel, { onSubmit, onChange, topic='' }) =>
+const NewSessionForm = curry((submitSession, { onSubmit, onChange, topic='' }) =>
   <form className='new-session-form' onSubmit={compose(submitSession, preventDefault(onSubmit))}>
     <div className='topic'>
       <label htmlFor='topic'>Topic</label>
@@ -15,26 +14,23 @@ const NewSessionForm = curry((submitSession, cancel, { onSubmit, onChange, topic
     </div>
     <div className='buttons'>
       <button className='create-session' type='submit'>Create</button>
-      <button onClick={cancel}>Cancel</button>
     </div>
   </form>
 );
 
-const NewSession = ({ cancel, submitSession }) => (
+const NewSession = ({ submitSession }) => (
   <div className='new-session'>
-    <StatefulForm form={NewSessionForm(submitSession, cancel)} />
+    <StatefulForm form={NewSessionForm(submitSession)} />
   </div>
 );
 
 NewSession.propTypes = {
-  submitSession: React.PropTypes.func.isRequired,
-  cancel: React.PropTypes.func.isRequired
+  submitSession: React.PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
-  submitSession: compose(dispatch, createSession),
-  cancel: () => dispatch(goBack())
+  submitSession: compose(dispatch, createSession)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSession);
