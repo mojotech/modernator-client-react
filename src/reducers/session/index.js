@@ -2,7 +2,7 @@ import { action } from 'types/common';
 import { compose, prop, curry, indexBy, map, isNil } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
-import { replace, LOCATION_CHANGED } from 'redux-little-router';
+import { push, replace, LOCATION_CHANGED } from 'redux-little-router';
 import { session as sessionRoute } from 'lib/routes';
 
 const initialState = {
@@ -22,11 +22,10 @@ const session = (state=initialState, action) => {
   switch(action.type) {
   case 'session/create':
     action.sideEffect(createAndJoinSession(action.payload));
-    return { ...initialState };
+    return { ...initialState, loading: true };
   case 'session/join':
-    action.router.push(sessionRoute(action.payload.sessionId));
     action.sideEffect(joinAndFetchSession(action.payload.sessionId));
-    return { ...initialState };
+    return { ...initialState, loading: true };
   case 'session/load':
     return { ...state, loading: false, ...action.payload };
   case 'session/set_socket':
@@ -83,14 +82,13 @@ const joinRequest = (sessionId) => {
   });
 };
 
-const joinAndFetchSession = curry((sessionId, dispatch) => {
-  return joinRequest(sessionId)
+const joinAndFetchSession = curry((sessionId, dispatch) => (
+  joinRequest(sessionId)
     .then(requestJson)
-    .then((q) => {
-      // store socket on state so it doesn't get garbage collected
-      openSessionSocket(sessionId, dispatch);
-    });
-});
+    .then(() => {
+      dispatch(push(sessionRoute(sessionId)));
+    })
+));
 
 const openSessionSocket = curry((sessionId, dispatch) => {
   const socket = new WebSocket(`${wsPath}/sessions/${sessionId}/messages`);
@@ -186,7 +184,6 @@ const createAndJoinSession = curry(({ topic }, dispatch) => (
   createSessionRequest(topic)
     .then(requestJson)
     .then((a) => {
-      openSessionSocket(a.sessionId, dispatch);
       dispatch(replace(sessionRoute(a.sessionId)));
     })
 ));
