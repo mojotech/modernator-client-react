@@ -2,6 +2,7 @@ import { action } from 'types/common';
 import { compose, prop, curry, indexBy, map, isNil } from 'ramda';
 import { apiPath, wsPath } from 'lib/api-path';
 import requestJson from 'lib/request-json';
+import assertResponseOK from 'lib/http-assert';
 import { push, replace, LOCATION_CHANGED } from 'redux-little-router';
 import { session as sessionRoute } from 'lib/routes';
 
@@ -87,10 +88,12 @@ const joinRequest = (sessionId) => {
 
 const joinAndFetchSession = curry((sessionId, dispatch) => (
   joinRequest(sessionId)
+    .then(assertResponseOK)
     .then(requestJson)
     .then(() => {
       dispatch(push(sessionRoute(sessionId)));
     })
+    .catch(() => {})
 ));
 
 const openSessionSocket = curry((sessionId, dispatch) => {
@@ -185,10 +188,12 @@ const createSessionRequest = (topic) => (
 
 const createAndJoinSession = curry(({ topic }, dispatch) => (
   createSessionRequest(topic)
+    .then(assertResponseOK)
     .then(requestJson)
     .then((a) => {
       dispatch(replace(sessionRoute(a.sessionId)));
     })
+    .catch(() => {})
 ));
 
 export default session;

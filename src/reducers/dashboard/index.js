@@ -2,6 +2,7 @@ import { curry, compose, filter, reduce, map, indexBy, prop } from 'ramda';
 import { action } from 'types/common';
 import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
+import assertResponseOK from 'lib/http-assert';
 import { LOCATION_CHANGED } from 'redux-little-router';
 import { isRoute, dashboard as dashboardRoute } from 'lib/routes';
 import { serverToUser } from 'types/user';
@@ -51,9 +52,15 @@ export function fetchDashboard(dispatch) {
 }
 
 function dashboardRequest(dispatch) {
-  return fetch(`${apiPath}/sessions`)
+  return fetch(`${apiPath}/sessions`, {
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({'Accept': 'application/json'})
+    })
+    .then(assertResponseOK)
     .then(requestJson)
-    .then(compose(dispatch, action('dashboard/load-sessions'), indexBy(prop('id')), map(toDashboardSessionInfo)));
+    .then(compose(dispatch, action('dashboard/load-sessions'), indexBy(prop('id')), map(toDashboardSessionInfo)))
+    .catch(() => {});
 }
 
 function toDashboardSessionInfo({ session, answerer, questioners, questions }) {
