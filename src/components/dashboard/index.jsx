@@ -57,9 +57,13 @@ const partitionSessions = (sessions, user) => {
       otherSessions: values(sessions)
     }
   }
-  const answererSessions = user.answererSessions.map((id) => sessions[id]);
-  const questionerSessions = user.questionerSessions.map((id) => sessions[id]);
-  const userSessionIds = concat(user.answererSessions, user.questionerSessions);
+
+  const userAnswererSessions = user.answererSessions || []
+  const userQuestionerSessions = user.questionerSessions || []
+
+  const answererSessions = userAnswererSessions.map((id) => sessions[id]);
+  const questionerSessions = userQuestionerSessions.map((id) => sessions[id]);
+  const userSessionIds = concat(userAnswererSessions, userQuestionerSessions);
   const otherSessions = reject((s) => contains(s.id, userSessionIds), values(sessions));
 
   return {
