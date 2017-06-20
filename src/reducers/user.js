@@ -1,5 +1,6 @@
 import apiPath from 'lib/api-path';
 import requestJson from 'lib/request-json';
+import assertResponseOK from 'lib/http-assert';
 import { curry, compose, always } from 'ramda';
 import { action } from 'types/common';
 import { dashboard } from 'lib/routes';
@@ -55,7 +56,8 @@ const signInRequest = curry((name, password, dispatch) => {
       loginPassword: password
     })
   }).then(requestJson)
-    .then(compose(dispatch, action('user/loaded'), serverToUser));
+    .then(compose(dispatch, action('user/loaded'), serverToUser))
+    .catch(() => {});
 });
 
 export const signUp = action('user/sign_up');
@@ -69,15 +71,18 @@ const signUpRequest = curry((name, password, dispatch) => {
       userName: name,
       userPassword: password
     })
-  }).then(requestJson)
-    .then(compose(dispatch, action('user/loaded'), serverToUser));
+  }).then(assertResponseOK)
+    .then(requestJson)
+    .then(compose(dispatch, action('user/loaded'), serverToUser))
+    .catch(() => {});
 });
 
 const meRequest = (dispatch) => {
   return fetch(`${apiPath}/users/me`, {
     credentials: 'include',
     headers: new Headers({ 'Accept': 'application/json' })
-  }).then(requestJson)
+  }).then(assertResponseOK)
+    .then(requestJson)
     .then(compose(dispatch, action('user/loaded'), serverToUser))
     .catch(compose(dispatch, action('user/loaded'), always(null)));
 };
