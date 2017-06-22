@@ -7,7 +7,8 @@ require('dotenv').config();
 module.exports = R.merge(baseConfig, {
   output: {
     path: path.resolve('./bin/dist'),
-    filename: 'app.bundle.prod.js'
+    filename: 'app.bundle.prod.js',
+    publicPath: '/'
   },
   plugins: baseConfig.plugins.concat(
     new webpack.DefinePlugin({
