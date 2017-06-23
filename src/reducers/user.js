@@ -31,8 +31,9 @@ const user = (state = initialState, action) => {
     action.sideEffect(meRequest);
     return { ...initialState, isLoading: true };
   case SESSION_CREATE:
+    return { ...state, dirty: true, user: { ...state.user, answererSessions: [...state.user.answererSessions, action.payload.sessionId] } };
   case SESSION_JOIN:
-    return { ...state, dirty: true };
+    return { ...state, dirty: true, user: { ...state.user, questionerSessions: [...state.user.questionerSessions, action.payload.sessionId] } };
   case DASHBOARD_RESET:
     if (state.dirty) {
       action.sideEffect(meRequest);
