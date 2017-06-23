@@ -5,6 +5,7 @@ import requestJson from 'lib/request-json';
 import assertResponseOK from 'lib/http-assert';
 import { push, replace, LOCATION_CHANGED } from 'redux-little-router';
 import { session as sessionRoute } from 'lib/routes';
+import { serverToUser } from 'types/user';
 
 export const SESSION_CREATE = 'session/create';
 export const SESSION_JOIN = 'session/join';
@@ -123,7 +124,7 @@ function handleMessage(message) {
   case 'QuestionAnswered':
     return action('session/question_answered', message.question);
   case 'QuestionerJoined':
-    return action('session/questioner_joined', message.questioner);
+    return compose(action('session/questioner_joined'), serverToUser)(message.questioner);
   }
 }
 
