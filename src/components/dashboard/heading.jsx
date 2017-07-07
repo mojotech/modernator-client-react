@@ -5,10 +5,7 @@ import { User } from 'types/prop-types';
 import { isSignedIn } from 'types/user';
 
 const SignedInHeading = ({ user }) => (
-  <div className='heading'>
-    <Link className='new-session btn' href={newSession()}>New Session</Link>
-    <h1 className='h1'>Modernator</h1>
-  </div>
+  <Link className='new-session btn' href={newSession()}>New Session</Link>
 );
 
 SignedInHeading.propTypes = {
@@ -16,19 +13,19 @@ SignedInHeading.propTypes = {
 };
 
 const SignedOutHeading = () => (
-  <div className='heading'>
-    <div>
-      <Link className='sign-up btn' href={signUp()}>Sign Up</Link>
-      <Link className='sign-in btn' href={signIn()}>Sign In</Link>
-    </div>
-    <h1 className='h1'>Modernator</h1>
+  <div>
+    <Link className='sign-up btn' href={signUp()}>Sign Up</Link>
+    <Link className='sign-in btn' href={signIn()}>Sign In</Link>
   </div>
 );
 
 const Heading = ({ user }) => (
-  isSignedIn(user)
-    ? <SignedInHeading user={user} />
-    : <SignedOutHeading />
+  <div className='heading'>
+    {isSignedIn(user)
+      ? <SignedInHeading user={user} />
+      : <SignedOutHeading />}
+    <h1 className='h1'>Modernator</h1>
+  </div>
 );
 
 Heading.propTypes = {
