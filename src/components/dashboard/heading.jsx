@@ -12,8 +12,8 @@ SignedInHeading.propTypes = {
   user: User
 };
 
-const SignedOutHeading = () => (
-  <div>
+export const SignedOutHeading = ({ className='' }) => (
+  <div className={className}>
     <Link className='sign-up btn' href={signUp()}>Sign Up</Link>
     <Link className='sign-in btn' href={signIn()}>Sign In</Link>
   </div>
