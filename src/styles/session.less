@@ -19,6 +19,8 @@
 
     .header {
       margin-bottom: @relative-medium;
+      display: flex;
+      justify-content: space-between;
     }
 
     .h1 {
@@ -181,6 +183,30 @@
 
     .anonymous {
       width: 100%;
+    }
+
+    .sign-in, .sign-up {
+      background-color: @primary-lightest;
+      border-color: @primary-medium;
+      color: @primary-darkest;
+      font-size: @font-size;
+      padding: @fixed-medium;
+    }
+
+    .sign-up {
+      background-color: @primary-light;
+      margin-right: @fixed-medium;
+    }
+
+    .sign-in:focus, .sign-in:hover,
+    .sign-up:focus, .sign-up:hover {
+      border-color: @primary-dark;
+    }
+
+    .sign-in:active, .sign-up:active {
+      background-color: @primary-light;
+      border-color: @primary-light;
+      color: @primary-darkest;
     }
   }
 }
