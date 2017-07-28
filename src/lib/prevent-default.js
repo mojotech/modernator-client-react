@@ -1,4 +1,6 @@
-export default function preventDefault(fn) {
+import { identity } from 'ramda';
+
+export default function preventDefault(fn = identity) {
   return (e) => {
     e.preventDefault();
     e.stopPropagation();
