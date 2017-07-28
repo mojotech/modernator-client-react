@@ -57,8 +57,8 @@ export const Session = PT.shape(mergeAll([
 
 export const DashboardSession = PT.shape(dashboardSessionShape);
 
-export const User = PT.oneOfType([PT.oneOf([null]), PT.shape({
+export const User = PT.shape({
   name: PT.string.isRequired,
   answererSessions: PT.arrayOf(PT.number.isRequired).isRequired,
   questionerSessions: PT.arrayOf(PT.number.isRequired).isRequired
-}).isRequired]);
+});
