@@ -7,6 +7,7 @@ import { askQuestion, upvoteQuestion, answerQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
 import { isQuestionerForSession, isAnswererForSession } from 'types/user';
 import SessionHeading from './heading';
+import { joinSession } from 'reducers/session';
 require('styles/session.less')
 
 const makeQuestionerQuestion = curry((me, upvoteQuestion, question) => {
@@ -81,7 +82,8 @@ const Session = ({
   loading,
   askQuestion,
   upvoteQuestion,
-  answerQuestion
+  answerQuestion,
+  joinSession
 }) => {
   if (isNil(id)) {
     return <span>Loading...</span>;
@@ -95,7 +97,7 @@ const Session = ({
           <h2 className='h2'>{answerer.name}</h2>
           {me && <p>You are {me.name}</p>}
         </div>
-        <SessionHeading user={me} />
+        <SessionHeading user={me} joinSession={joinSession} sessionId={id} />
       </div>
       <h3 className='h3'>Questions:</h3>
       {isQuestionerForSession(me, id) && <AskQuestion askQuestion={askQuestion} />}
@@ -131,7 +133,8 @@ const mapStateToProps = (state) => ({ ...state.session, me: state.user.user });
 const mapDispatchToProps = (dispatch) => ({
   askQuestion: compose(dispatch, askQuestion),
   upvoteQuestion: compose(dispatch, upvoteQuestion),
-  answerQuestion: compose(dispatch, answerQuestion)
+  answerQuestion: compose(dispatch, answerQuestion),
+  joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Session);
