@@ -2,7 +2,6 @@ import React from 'react';
 import { dashboardSessionShape } from 'types/prop-types';
 import preventDefault from 'lib/prevent-default';
 import { compose, propOr } from 'ramda';
-import StatefulForm from 'components/stateful-form';
 
 const DashboardSession = ({ session, answerer, totals, showJoin=false, joinSession }) => (
   <div className='session'>
@@ -14,13 +13,15 @@ const DashboardSession = ({ session, answerer, totals, showJoin=false, joinSessi
       </p>
     </div>
     {showJoin &&
-      <StatefulForm form={({ onSubmit, onChange }) => (
-        <form className='session-join' onSubmit={compose(joinSession(session.sessionId), preventDefault(onSubmit))}>
-          <div className='actions'>
-            <button className='submit' type='submit'>Join</button>
-          </div>
-        </form>
-      )} />
+      <div className='session-join actions'>
+        <button
+          onClick={compose(joinSession(session.sessionId), preventDefault())}
+          className='submit'
+          type='submit'
+        >
+          Join
+        </button>
+      </div>
     }
   </div>
 );
