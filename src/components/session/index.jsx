@@ -5,8 +5,8 @@ import AskQuestion from './ask-question';
 import SessionQuestion, { QuestionerActions, QuestionerQuestion, AnswererQuestion, AnswererActions, AnonymousQuestion } from './question';
 import { askQuestion, upvoteQuestion, answerQuestion } from 'reducers/session';
 import { map, isNil, prop, sortBy, compose, values, reverse, contains, flatten, partition, curry, pick } from 'ramda';
-import { isQuestionerForSession, isAnswererForSession, isSignedIn } from 'types/user';
-import { SignedOutHeading } from 'components/dashboard/heading';
+import { isQuestionerForSession, isAnswererForSession } from 'types/user';
+import SessionHeading from './heading';
 require('styles/session.less')
 
 const makeQuestionerQuestion = curry((me, upvoteQuestion, question) => {
@@ -95,7 +95,7 @@ const Session = ({
           <h2 className='h2'>{answerer.name}</h2>
           {me && <p>You are {me.name}</p>}
         </div>
-        {!isSignedIn(me) && <SignedOutHeading className='auth-buttons'/>}
+        <SessionHeading user={me} />
       </div>
       <h3 className='h3'>Questions:</h3>
       {isQuestionerForSession(me, id) && <AskQuestion askQuestion={askQuestion} />}
