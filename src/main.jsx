@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { Fragment } from 'redux-little-router';
 import { dashboard, newSession, session, signIn, signUp } from 'lib/routes';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { pick } from 'ramda';
 require('styles/loading.less');
 
 const Loader = () => (
@@ -43,10 +44,4 @@ const Main = ({ isLoading }) => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    isLoading: state.user.isLoading || !state.initialized || state.session.loading
-  };
-};
-
-export default connect(mapStateToProps)(Main);
+export default connect(pick('main'))(Main);

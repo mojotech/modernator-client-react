@@ -22,9 +22,16 @@ const partitionedSessions = $.map(
   $.map(pick(['dashboard', 'user']), independent)
 );
 
-const reducers = $.expand(
+const mainReducer = $.map(
+  ({ user, session, initialized }) => ({
+    main: user.isLoading || !initialized || session.loading
+  }),
+  $.map(pick(['user', 'session', 'initialized']), independent)
+);
+const reducers = $.expandAll(
   independent,
-  partitionedSessions
+  partitionedSessions,
+  mainReducer
 );
 
 export default reducers;
