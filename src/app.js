@@ -12,7 +12,7 @@ import routerSideEffects from 'middleware/router-side-effects';
 require('styles/base.less');
 
 // reducers
-import dashboard from 'reducers/dashboard';
+import dashboard from 'reducers/dashboard/computed';
 import session from 'reducers/session';
 import user from 'reducers/user';
 import initialized, { initialize } from 'reducers/initialize';
