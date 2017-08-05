@@ -12,21 +12,11 @@ import router from './router';
 require('styles/base.less');
 
 // reducers
-import dashboard from 'reducers/dashboard/computed';
-import session from 'reducers/session';
-import user from 'reducers/user';
-import initialized, { initialize } from 'reducers/initialize';
-import { Chain } from 'redux-reducer-toolkit';
+import { initialize } from 'reducers/initialize';
+import { Chain, Profunctor } from 'redux-reducer-toolkit';
+import reducers from 'reducers';
 
-const reducer = Chain.combine({
-  dashboard,
-  session,
-  user,
-  router: router.reducer,
-  initialized
-});
-
-const store = createStore(reducer,
+const store = createStore(reducers,
   {},
   composeWithDevTools(
     router.enhancer,
