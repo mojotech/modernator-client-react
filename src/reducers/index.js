@@ -28,10 +28,19 @@ const mainReducer = $.map(
   }),
   $.map(pick(['user', 'session', 'initialized']), independent)
 );
+
+const sessionReducer = $.map(
+  ({ session, user }) => ({
+    session: { ...session, me: user.user }
+  }),
+  $.map(pick(['session', 'user']), independent)
+);
+
 const reducers = $.expandAll(
   independent,
   partitionedSessions,
-  mainReducer
+  mainReducer,
+  sessionReducer
 );
 
 export default reducers;
