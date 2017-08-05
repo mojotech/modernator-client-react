@@ -6,8 +6,8 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { actionSideEffectMiddleware } from 'redux-side-effect';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { RouterProvider, routerForBrowser, initializeCurrentLocation } from 'redux-little-router';
-import routes from 'lib/routes';
 import routerSideEffects from 'middleware/router-side-effects';
+import router from './router';
 
 require('styles/base.less');
 
@@ -17,10 +17,6 @@ import session from 'reducers/session';
 import user from 'reducers/user';
 import initialized, { initialize } from 'reducers/initialize';
 import { Chain } from 'redux-reducer-toolkit';
-
-const router = routerForBrowser({
-  routes
-})
 
 const reducer = Chain.combine({
   dashboard,
