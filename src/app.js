@@ -16,22 +16,22 @@ import dashboard from 'reducers/dashboard/computed';
 import session from 'reducers/session';
 import user from 'reducers/user';
 import initialized, { initialize } from 'reducers/initialize';
+import { Chain } from 'redux-reducer-toolkit';
 
 const router = routerForBrowser({
   routes
 })
 
-function reducer(state={}, action) {
-  return {
-    dashboard: dashboard(state.dashboard, action),
-    session: session(state.session, action),
-    user: user(state.user, action),
-    router: router.reducer(state.router, action),
-    initialized: initialized(state.initialized, action)
-  };
-}
+const reducer = Chain.combine({
+  dashboard,
+  session,
+  user,
+  router: router.reducer,
+  initialized
+});
 
 const store = createStore(reducer,
+  {},
   composeWithDevTools(
     router.enhancer,
     applyMiddleware(
