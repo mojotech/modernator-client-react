@@ -1,4 +1,4 @@
-import $ from 'staticland-redux';
+import $ from 'redux-reducer-toolkit';
 import { curry, concat, contains, prop, values, reject, isEmpty } from 'ramda';
 import dashboard from 'reducers/dashboard';
 import user from 'reducers/user';
