@@ -6,6 +6,8 @@ import Session from './session';
 import Heading from './heading';
 import { curry, compose, values, reject, contains, concat, isEmpty, prop } from 'ramda';
 import { isSignedIn } from 'types/user';
+import { map, expandAll, apAll, constant } from 'redux-consumer-toolkit';
+import partitionSessions from 'lib/partition-sessions';
 require('styles/dashboard.less');
 
 const SessionList = ({ sessions, joinSession, showJoin }) => (
@@ -49,8 +51,17 @@ Dashboard.propTypes = {
   otherSessions: React.PropTypes.arrayOf(DashboardSession).isRequired
 };
 
+const dashboardSelector = prop('dashboard');
+const dashboardSessions = map(prop('sessions'), dashboardSelector);
+const userSelector = s => s.user && s.user.user;
+
+const selector = expandAll(
+  dashboardSelector,
+  apAll(constant(partitionSessions), dashboardSessions, userSelector),
+  map(user => ({ user }), userSelector)
+);
 const mapDispatchToProps = (dispatch) => ({
   joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId)))
 });
 
-export default connect(prop('dashboard'), mapDispatchToProps)(Dashboard);
+export default connect(selector, mapDispatchToProps)(Dashboard);

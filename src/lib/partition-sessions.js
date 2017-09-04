@@ -1,7 +1,7 @@
 import { curry, concat, contains, prop, values, reject, isEmpty } from 'ramda';
 
 export default curry((sessions, user) => {
-  if(user === null || isEmpty(sessions)) {
+  if(!user || isEmpty(sessions)) {
     return {
       answererSessions: [],
       questionerSessions: [],
