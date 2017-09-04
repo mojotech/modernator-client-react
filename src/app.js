@@ -13,7 +13,6 @@ require('styles/base.less');
 
 // reducers
 import { initialize } from 'reducers/initialize';
-import { Chain, Profunctor } from 'redux-reducer-toolkit';
 import reducers from 'reducers';
 
 const store = createStore(reducers,
