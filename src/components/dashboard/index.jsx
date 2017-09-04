@@ -4,7 +4,7 @@ import { joinSession } from 'reducers/session';
 import { DashboardSession } from 'types/prop-types';
 import Session from './session';
 import Heading from './heading';
-import { curry, compose, values, reject, contains, concat, isEmpty } from 'ramda';
+import { curry, compose, values, reject, contains, concat, isEmpty, prop } from 'ramda';
 import { isSignedIn } from 'types/user';
 require('styles/dashboard.less');
 
@@ -49,33 +49,8 @@ Dashboard.propTypes = {
   otherSessions: React.PropTypes.arrayOf(DashboardSession).isRequired
 };
 
-const partitionSessions = (sessions, user) => {
-  if(user === null || isEmpty(sessions)) {
-    return {
-      answererSessions: [],
-      questionerSessions: [],
-      otherSessions: values(sessions)
-    }
-  }
-  const answererSessions = user.answererSessions.map((id) => sessions[id]);
-  const questionerSessions = user.questionerSessions.map((id) => sessions[id]);
-  const userSessionIds = concat(user.answererSessions, user.questionerSessions);
-  const otherSessions = reject((s) => contains(s.id, userSessionIds), values(sessions));
-
-  return {
-    answererSessions,
-    questionerSessions,
-    otherSessions
-  };
-};
-
-const mapStateToProps = (state) => ({
-  ...state.dashboard,
-  ...partitionSessions(state.dashboard.sessions, state.user.user),
-  user: state.user.user
-});
 const mapDispatchToProps = (dispatch) => ({
   joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId)))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(prop('dashboard'), mapDispatchToProps)(Dashboard);

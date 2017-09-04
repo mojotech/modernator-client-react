@@ -129,7 +129,6 @@ const Session = ({
 
 Session.propTypes = SessionProp.isRequired;
 
-const mapStateToProps = (state) => ({ ...state.session, me: state.user.user });
 const mapDispatchToProps = (dispatch) => ({
   askQuestion: compose(dispatch, askQuestion),
   upvoteQuestion: compose(dispatch, upvoteQuestion),
@@ -137,4 +136,4 @@ const mapDispatchToProps = (dispatch) => ({
   joinSession: curry((sessionId, _) => dispatch(joinSession(sessionId)))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Session);
+export default connect(prop('session'), mapDispatchToProps)(Session);
